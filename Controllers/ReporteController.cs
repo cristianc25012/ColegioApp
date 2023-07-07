@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ProyectoSincoVersionOne.Clases;
+using ProyectoSincoVersionOne.DTOs;
 using ProyectoSincoVersionOne.Models;
 
 namespace ProyectoSincoVersionOne.Controllers

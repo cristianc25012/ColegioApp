@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ProyectoSincoVersionOne.DTOs;
 using ProyectoSincoVersionOne.Models;
 
 namespace ProyectoSincoVersionOne.Controllers
@@ -43,7 +44,7 @@ namespace ProyectoSincoVersionOne.Controllers
 
             if (student == null)
             {
-                return NotFound();
+                throw new Exception("Estudiante no encontrado con id suministrado");
             }
 
             return student;
@@ -52,11 +53,10 @@ namespace ProyectoSincoVersionOne.Controllers
         // PUT: api/Students/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut]
-        public async Task<IActionResult> PutStudent(int ID, string Nombres, string Apellidos, string NumeroDeIdentificacion,
-            string Direccion, string Telefono, int Edad)
+        public async Task<IActionResult> PutStudent(StudentDTO studentDTO)
         {
-            Student student = CreateStudent(Nombres, Apellidos, NumeroDeIdentificacion, Direccion, Telefono, Edad);
-            student.StudentID = ID;
+            Student student = CreateStudent(studentDTO);
+            student.StudentID = studentDTO.ID;
             _context.Entry(student).State = EntityState.Modified;
 
             try
@@ -67,11 +67,11 @@ namespace ProyectoSincoVersionOne.Controllers
             {
                 if (!StudentExists(student.StudentID))
                 {
-                    return NotFound();
+                    throw new Exception("Estudiante no encontrado con id suministrado");
                 }
                 else
                 {
-                    throw new Exception("estudiante no encontrado con id ");
+                    throw new Exception("No fue posible editar el profesor, revise los datos e intente de nuevo");
                 }
             }
 
@@ -81,16 +81,23 @@ namespace ProyectoSincoVersionOne.Controllers
         // POST: api/Students
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Student>> PostStudent(string Nombres, string Apellidos, string NumeroDeIdentificacion,
-            string Direccion, string Telefono, int Edad)
+        public async Task<ActionResult<Student>> PostStudent(StudentDTO studentDTO)
         {
           if (_context.Students == null)
           {
               return Problem("Entity set 'ContextDB.Students'  is null.");
           }
-            Student student = CreateStudent(Nombres, Apellidos, NumeroDeIdentificacion, Direccion, Telefono, Edad);
+            studentDTO.ID = 0;
+            Student student = CreateStudent(studentDTO);
             _context.Students.Add(student);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch
+            {
+                throw new Exception("No fue posible crear el estudiante, revise los datos e intente de nuevo");
+            }
 
             return CreatedAtAction("GetStudent", new { id = student.StudentID }, student);
         }
@@ -106,11 +113,19 @@ namespace ProyectoSincoVersionOne.Controllers
             var student = await _context.Students.FindAsync(id);
             if (student == null)
             {
-                return NotFound();
+                throw new Exception("No fue posible eliminar el registro, el registro no existe");
             }
 
             _context.Students.Remove(student);
-            await _context.SaveChangesAsync();
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch
+            {
+                throw new Exception("No fue posible eliminar el registro");
+            }
 
             return NoContent();
         }
@@ -120,19 +135,25 @@ namespace ProyectoSincoVersionOne.Controllers
             return (_context.Students?.Any(e => e.StudentID == id)).GetValueOrDefault();
         }
 
-        private Student CreateStudent(string Nombres, string Apellidos, string NumeroDeIdentificacion,
-            string Direccion, string Telefono, int Edad)
+        private Student CreateStudent(StudentDTO studentDTO)
         {
-            Student student = new()
+            if(studentDTO.Age >= 0 && studentDTO.Age < 200)
             {
-                StuName = Nombres,
-                StuLastName = Apellidos,
-                StuIdentification = NumeroDeIdentificacion,
-                StuAddress = Direccion,
-                StuPhoneNumber = Telefono,
-                Age = Edad
-            };
-            return student;
+                Student student = new()
+                {
+                    StuName = studentDTO.Name,
+                    StuAddress = studentDTO.Address,
+                    StuIdentification = studentDTO.Identification,
+                    StuLastName = studentDTO.LastName,
+                    StuPhoneNumber = studentDTO.PhoneNumber,
+                    Age = studentDTO.Age
+                };
+                return student;
+            }
+            else
+            {
+                throw new Exception("La edad del estudiante debe ser un número positivo menor a 200");
+            }
         }
     }
 }

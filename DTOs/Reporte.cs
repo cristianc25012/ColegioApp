@@ -1,4 +1,4 @@
-﻿namespace ProyectoSincoVersionOne.Clases
+﻿namespace ProyectoSincoVersionOne.DTOs
 {
     public class Reporte
     {

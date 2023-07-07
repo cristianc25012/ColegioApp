@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ProyectoSincoVersionOne.DTOs;
 using ProyectoSincoVersionOne.Models;
 
 namespace ProyectoSincoVersionOne.Controllers
@@ -50,7 +51,7 @@ namespace ProyectoSincoVersionOne.Controllers
 
             if (materia == null)
             {
-                return NotFound();
+                throw new Exception("Materia no encontrada con id suministrado");
             }
 
             return materia;
@@ -59,10 +60,9 @@ namespace ProyectoSincoVersionOne.Controllers
         // PUT: api/Materias/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutMateria(int id, String nombre, String codigo, int profeEncargadoID)
+        public async Task<IActionResult> PutMateria(MateriaDTO materiaDTO)
         {
-            Materia materia = CreateMateria(nombre, codigo, profeEncargadoID);
-            materia.MateriaID = id;
+            Materia materia = CreateMateria(materiaDTO);
             _context.Entry(materia).State = EntityState.Modified;
 
             try
@@ -71,13 +71,13 @@ namespace ProyectoSincoVersionOne.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!MateriaExists(id))
+                if (!MateriaExists(materiaDTO.MateriaID))
                 {
-                    return NotFound();
+                    throw new Exception("Materia no encontrada con id suministrado");
                 }
                 else
                 {
-                    throw;
+                    throw new Exception("No fue posible editar la Materia, revise los datos e intente de nuevo");
                 }
             }
 
@@ -87,15 +87,24 @@ namespace ProyectoSincoVersionOne.Controllers
         // POST: api/Materias
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Materia>> PostMateria(String nombre, String codigo, int profeEncargadoID)
+        public async Task<ActionResult<Materia>> PostMateria(MateriaDTO materiaDTO)
         {
           if (_context.Materias == null)
           {
               return Problem("Entity set 'ContextDB.Materias'  is null.");
           }
-            Materia materia = CreateMateria(nombre, codigo, profeEncargadoID);
+            materiaDTO.MateriaID = 0;
+            Materia materia = CreateMateria(materiaDTO);
             _context.Materias.Add(materia);
-            await _context.SaveChangesAsync();
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch
+            {
+                throw new Exception("No fue posible crear la Materia, revise los datos e intente de nuevo");
+            }
 
             return CreatedAtAction("GetMateria", new { id = materia.MateriaID }, materia);
         }
@@ -111,11 +120,19 @@ namespace ProyectoSincoVersionOne.Controllers
             var materia = await _context.Materias.FindAsync(id);
             if (materia == null)
             {
-                return NotFound();
+                throw new Exception("No fue posible eliminar el registro, el registro no existe");
             }
 
             _context.Materias.Remove(materia);
-            await _context.SaveChangesAsync();
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch
+            {
+                throw new Exception("No fue posible eliminar el registro");
+            }
 
             return NoContent();
         }
@@ -130,11 +147,11 @@ namespace ProyectoSincoVersionOne.Controllers
             return (_context.Profes?.Any(e => e.ProfesorID == id)).GetValueOrDefault();
         }
 
-        private Materia CreateMateria(String nombre, String codigo, int profeEncargadoID)
+        private Materia CreateMateria(MateriaDTO materiaDTO)
         {
-            if (ProfesorExists(profeEncargadoID))
+            if (ProfesorExists(materiaDTO.ProfesorID))
             {
-                if((_context.Materias.Any(e => e.MateriaCode == codigo)))
+                if((_context.Materias.Any(e => e.MateriaCode == materiaDTO.MateriaCode)))
                 {
                     throw new Exception(" Esta Materia ya esta asignada con otro profesor");
                 }
@@ -142,9 +159,9 @@ namespace ProyectoSincoVersionOne.Controllers
                 {
                     Materia materia = new()
                     {
-                        MateriaName = nombre,
-                        MateriaCode = codigo,
-                        ProfesorID = profeEncargadoID
+                        MateriaName = materiaDTO.MateriaName,
+                        MateriaCode = materiaDTO.MateriaCode,
+                        ProfesorID =  materiaDTO.ProfesorID
 
                     };
                     return materia;

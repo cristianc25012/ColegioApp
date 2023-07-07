@@ -17,17 +17,20 @@ namespace ProyectoSincoVersionOne.Models
             modelBuilder.Entity<Student>()
               .HasMany(x => x.HistorialFK)
               .WithOne(x => x.StudentFK)
-              .HasForeignKey(x => x.StudentID);
+              .HasForeignKey(x => x.StudentID)
+              .OnDelete(DeleteBehavior.ClientSetNull);
 
             modelBuilder.Entity<Profesor>()
               .HasMany(x => x.MateriaFK)
               .WithOne(x => x.ProfesorFK)
-              .HasForeignKey(x => x.ProfesorID);
+              .HasForeignKey(x => x.ProfesorID)
+              .OnDelete(DeleteBehavior.ClientSetNull);
 
             modelBuilder.Entity<Materia>()
               .HasMany(x => x.HistorialFK)
               .WithOne(x => x.MateriaFK)
-              .HasForeignKey(x => x.MateriaID);
+              .HasForeignKey(x => x.MateriaID)
+              .OnDelete(DeleteBehavior.ClientSetNull);
         }
 
     }

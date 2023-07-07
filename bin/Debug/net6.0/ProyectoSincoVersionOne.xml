@@ -29,5 +29,29 @@
         <member name="M:ProyectoSincoVersionOne.Migrations.InitialMigration.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
+        <member name="T:ProyectoSincoVersionOne.Migrations.SecondMigration">
+            <inheritdoc />
+        </member>
+        <member name="M:ProyectoSincoVersionOne.Migrations.SecondMigration.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ProyectoSincoVersionOne.Migrations.SecondMigration.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ProyectoSincoVersionOne.Migrations.SecondMigration.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:ProyectoSincoVersionOne.Migrations.Migration3">
+            <inheritdoc />
+        </member>
+        <member name="M:ProyectoSincoVersionOne.Migrations.Migration3.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ProyectoSincoVersionOne.Migrations.Migration3.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ProyectoSincoVersionOne.Migrations.Migration3.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
     </members>
 </doc>

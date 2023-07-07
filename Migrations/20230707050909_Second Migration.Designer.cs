@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProyectoSincoVersionOne.Models;
 
@@ -10,9 +11,11 @@ using ProyectoSincoVersionOne.Models;
 namespace ProyectoSincoVersionOne.Migrations
 {
     [DbContext(typeof(ContextDB))]
-    partial class ContextDBModelSnapshot : ModelSnapshot
+    [Migration("20230707050909_Second Migration")]
+    partial class SecondMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -162,11 +165,13 @@ namespace ProyectoSincoVersionOne.Migrations
                     b.HasOne("ProyectoSincoVersionOne.Models.Materia", "MateriaFK")
                         .WithMany("HistorialFK")
                         .HasForeignKey("MateriaID")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ProyectoSincoVersionOne.Models.Student", "StudentFK")
                         .WithMany("HistorialFK")
                         .HasForeignKey("StudentID")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("MateriaFK");
