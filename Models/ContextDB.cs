@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ProyectoSincoVersionOne.Models;
 
 namespace ProyectoSincoVersionOne.Models
 {
@@ -11,6 +10,25 @@ namespace ProyectoSincoVersionOne.Models
         public DbSet<Profesor> Profes { get; set; }
         public DbSet<Materia> Materias { get; set; }
         public DbSet<HistorialAcademico> Historials { get; set; }
-        
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+
+            modelBuilder.Entity<Student>()
+              .HasMany(x => x.HistorialFK)
+              .WithOne(x => x.StudentFK)
+              .HasForeignKey(x => x.StudentID);
+
+            modelBuilder.Entity<Profesor>()
+              .HasMany(x => x.MateriaFK)
+              .WithOne(x => x.ProfesorFK)
+              .HasForeignKey(x => x.ProfesorID);
+
+            modelBuilder.Entity<Materia>()
+              .HasMany(x => x.HistorialFK)
+              .WithOne(x => x.MateriaFK)
+              .HasForeignKey(x => x.MateriaID);
+        }
+
     }
 }

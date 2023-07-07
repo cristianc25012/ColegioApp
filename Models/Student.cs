@@ -25,6 +25,6 @@ namespace ProyectoSincoVersionOne.Models
 
         //Foreign Key
         [ForeignKey("StudentHistoryID")]
-        public ICollection<HistorialAcademico> HistorialAcademicos { get; set; }
+        public ICollection<HistorialAcademico> HistorialFK { get; set; }
     }
 }

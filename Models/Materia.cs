@@ -15,12 +15,11 @@ namespace ProyectoSincoVersionOne.Models
         [Column(TypeName = "varchar(50)")]
         public string MateriaCode { get; set; }
         //Foreign Key
-        public int MateriaProfesorID { get; set; }
-        public virtual Profesor ProfesorEncargado { get; set; }
-
+        public int ProfesorID { get; set; }
+        public virtual Profesor ProfesorFK { get; set; }
         //Foreign Key 2
         [ForeignKey("MateriaVistaID")]
-        public virtual ICollection<HistorialAcademico> HistorialMaterias { get; set; }
+        public virtual ICollection<HistorialAcademico> HistorialFK { get; set; }
 
     }
 }

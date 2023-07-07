@@ -26,6 +26,6 @@ namespace ProyectoSincoVersionOne.Models
         
         //Foreign Key
         [ForeignKey("MateriaProfesorID")]
-        public virtual ICollection<Materia> Materias { get; set; }
+        public virtual ICollection<Materia> MateriaFK { get; set; }
     }
 }

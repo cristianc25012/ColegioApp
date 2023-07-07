@@ -51,14 +51,12 @@ namespace ProyectoSincoVersionOne.Controllers
 
         // PUT: api/Students/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutStudent(int id, Student student)
+        [HttpPut]
+        public async Task<IActionResult> PutStudent(int ID, string Nombres, string Apellidos, string NumeroDeIdentificacion,
+            string Direccion, string Telefono, int Edad)
         {
-            if (id != student.StudentID)
-            {
-                return BadRequest();
-            }
-
+            Student student = CreateStudent(Nombres, Apellidos, NumeroDeIdentificacion, Direccion, Telefono, Edad);
+            student.StudentID = ID;
             _context.Entry(student).State = EntityState.Modified;
 
             try
@@ -67,13 +65,13 @@ namespace ProyectoSincoVersionOne.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!StudentExists(id))
+                if (!StudentExists(student.StudentID))
                 {
                     return NotFound();
                 }
                 else
                 {
-                    throw;
+                    throw new Exception("estudiante no encontrado con id ");
                 }
             }
 
@@ -83,12 +81,14 @@ namespace ProyectoSincoVersionOne.Controllers
         // POST: api/Students
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Student>> PostStudent(Student student)
+        public async Task<ActionResult<Student>> PostStudent(string Nombres, string Apellidos, string NumeroDeIdentificacion,
+            string Direccion, string Telefono, int Edad)
         {
           if (_context.Students == null)
           {
               return Problem("Entity set 'ContextDB.Students'  is null.");
           }
+            Student student = CreateStudent(Nombres, Apellidos, NumeroDeIdentificacion, Direccion, Telefono, Edad);
             _context.Students.Add(student);
             await _context.SaveChangesAsync();
 
@@ -118,6 +118,21 @@ namespace ProyectoSincoVersionOne.Controllers
         private bool StudentExists(int id)
         {
             return (_context.Students?.Any(e => e.StudentID == id)).GetValueOrDefault();
+        }
+
+        private Student CreateStudent(string Nombres, string Apellidos, string NumeroDeIdentificacion,
+            string Direccion, string Telefono, int Edad)
+        {
+            Student student = new()
+            {
+                StuName = Nombres,
+                StuLastName = Apellidos,
+                StuIdentification = NumeroDeIdentificacion,
+                StuAddress = Direccion,
+                StuPhoneNumber = Telefono,
+                Age = Edad
+            };
+            return student;
         }
     }
 }

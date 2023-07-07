@@ -5,7 +5,7 @@
 namespace ProyectoSincoVersionOne.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -54,14 +54,15 @@ namespace ProyectoSincoVersionOne.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     MateriaName = table.Column<string>(type: "varchar(50)", nullable: false),
                     MateriaCode = table.Column<string>(type: "varchar(50)", nullable: false),
+                    ProfesorID = table.Column<int>(type: "int", nullable: false),
                     MateriaProfesorID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Materias", x => x.MateriaID);
                     table.ForeignKey(
-                        name: "FK_Materias_Profes_MateriaProfesorID",
-                        column: x => x.MateriaProfesorID,
+                        name: "FK_Materias_Profes_ProfesorID",
+                        column: x => x.ProfesorID,
                         principalTable: "Profes",
                         principalColumn: "ProfesorID",
                         onDelete: ReferentialAction.Cascade);
@@ -75,40 +76,42 @@ namespace ProyectoSincoVersionOne.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Year = table.Column<int>(type: "int", nullable: false),
                     Grade = table.Column<float>(type: "real", nullable: false),
-                    StudentHistoryID = table.Column<int>(type: "int", nullable: false),
-                    MateriaVistaID = table.Column<int>(type: "int", nullable: false)
+                    StudentID = table.Column<int>(type: "int", nullable: false),
+                    MateriaID = table.Column<int>(type: "int", nullable: false),
+                    MateriaVistaID = table.Column<int>(type: "int", nullable: false),
+                    StudentHistoryID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Historials", x => x.HistorialID);
                     table.ForeignKey(
-                        name: "FK_Historials_Materias_MateriaVistaID",
-                        column: x => x.MateriaVistaID,
+                        name: "FK_Historials_Materias_MateriaID",
+                        column: x => x.MateriaID,
                         principalTable: "Materias",
                         principalColumn: "MateriaID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Historials_Students_StudentHistoryID",
-                        column: x => x.StudentHistoryID,
+                        name: "FK_Historials_Students_StudentID",
+                        column: x => x.StudentID,
                         principalTable: "Students",
                         principalColumn: "StudentID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Historials_MateriaVistaID",
+                name: "IX_Historials_MateriaID",
                 table: "Historials",
-                column: "MateriaVistaID");
+                column: "MateriaID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Historials_StudentHistoryID",
+                name: "IX_Historials_StudentID",
                 table: "Historials",
-                column: "StudentHistoryID");
+                column: "StudentID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Materias_MateriaProfesorID",
+                name: "IX_Materias_ProfesorID",
                 table: "Materias",
-                column: "MateriaProfesorID");
+                column: "ProfesorID");
         }
 
         /// <inheritdoc />

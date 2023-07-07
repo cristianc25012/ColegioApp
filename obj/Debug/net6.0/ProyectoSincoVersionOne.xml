@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ProyectoSincoVersionOne</name>
+    </assembly>
+    <members>
+        <member name="M:ProyectoSincoVersionOne.Controllers.MateriasController.GetMaterias">
+            <summary>
+             metodo que obtiene las materias
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ProyectoSincoVersionOne.Controllers.MateriasController.GetMateria(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="id">id de meateria a consultar</param>
+            <returns></returns>
+        </member>
+        <member name="T:ProyectoSincoVersionOne.Migrations.InitialMigration">
+            <inheritdoc />
+        </member>
+        <member name="M:ProyectoSincoVersionOne.Migrations.InitialMigration.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ProyectoSincoVersionOne.Migrations.InitialMigration.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ProyectoSincoVersionOne.Migrations.InitialMigration.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>

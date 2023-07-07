@@ -10,11 +10,11 @@ namespace ProyectoSincoVersionOne.Models
         public int Year { get; set; }
         public float Grade { get; set; }
         //Foreign Key 1 
-        public int StudentHistoryID { get; set; }
-        public virtual Student StudentHistory { get; set; }
+        public int StudentID { get; set; }
+        public virtual Student StudentFK { get; set; }
 
         //Foreign Key 2 
-        public int MateriaVistaID { get; set; }
-        public virtual Materia MateriaVista { get; set; }
+        public int MateriaID { get; set; }
+        public virtual Materia MateriaFK { get; set; }
     }
 }

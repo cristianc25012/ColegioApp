@@ -52,13 +52,11 @@ namespace ProyectoSincoVersionOne.Controllers
         // PUT: api/HistorialAcademicoes/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutHistorialAcademico(int id, HistorialAcademico historialAcademico)
+        public async Task<IActionResult> PutHistorialAcademico(int id, int periodoEscolar, float calificacionFinal, 
+            int studentID, int materiaID)
         {
-            if (id != historialAcademico.HistorialID)
-            {
-                return BadRequest();
-            }
-
+            HistorialAcademico historialAcademico = CreateHistorial(periodoEscolar, calificacionFinal, studentID, materiaID);
+            historialAcademico.HistorialID = id;
             _context.Entry(historialAcademico).State = EntityState.Modified;
 
             try
@@ -83,12 +81,15 @@ namespace ProyectoSincoVersionOne.Controllers
         // POST: api/HistorialAcademicoes
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<HistorialAcademico>> PostHistorialAcademico(HistorialAcademico historialAcademico)
+        public async Task<ActionResult<HistorialAcademico>> PostHistorialAcademico(int periodoEscolar, float calificacionFinal,
+            int studentID, int materiaID)
         {
           if (_context.Historials == null)
           {
               return Problem("Entity set 'ContextDB.Historials'  is null.");
           }
+            
+            HistorialAcademico historialAcademico = CreateHistorial(periodoEscolar, calificacionFinal, studentID, materiaID);
             _context.Historials.Add(historialAcademico);
             await _context.SaveChangesAsync();
 
@@ -118,6 +119,19 @@ namespace ProyectoSincoVersionOne.Controllers
         private bool HistorialAcademicoExists(int id)
         {
             return (_context.Historials?.Any(e => e.HistorialID == id)).GetValueOrDefault();
+        }
+
+        private HistorialAcademico CreateHistorial(int periodoEscolar, float calificacionFinal, int studentID, int materiaID)
+        {
+            HistorialAcademico historialAcademico = new()
+            {
+                Year = periodoEscolar,
+                Grade = calificacionFinal,
+                StudentID = studentID,
+                MateriaID = materiaID
+            };
+
+            return historialAcademico;
         }
     }
 }

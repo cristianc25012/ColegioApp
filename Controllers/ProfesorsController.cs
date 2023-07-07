@@ -52,13 +52,12 @@ namespace ProyectoSincoVersionOne.Controllers
         // PUT: api/Profesors/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProfesor(int id, Profesor profesor)
+        public async Task<IActionResult> PutProfesor(int id, string Nombres, string Apellidos, string NumeroDeIdentificacion,
+            string Direccion, string Telefono, int Edad)
         {
-            if (id != profesor.ProfesorID)
-            {
-                return BadRequest();
-            }
 
+            Profesor profesor = CreateProfesor(Nombres, Apellidos, NumeroDeIdentificacion, Direccion, Telefono, Edad);
+            profesor.ProfesorID = id;
             _context.Entry(profesor).State = EntityState.Modified;
 
             try
@@ -83,12 +82,15 @@ namespace ProyectoSincoVersionOne.Controllers
         // POST: api/Profesors
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Profesor>> PostProfesor(Profesor profesor)
+        public async Task<ActionResult<Profesor>> PostProfesor(string Nombres, string Apellidos, string NumeroDeIdentificacion,
+            string Direccion, string Telefono, int Edad)
         {
           if (_context.Profes == null)
           {
               return Problem("Entity set 'ContextDB.Profes'  is null.");
           }
+            Profesor profesor = CreateProfesor(Nombres, Apellidos, NumeroDeIdentificacion, Direccion, Telefono, Edad);
+
             _context.Profes.Add(profesor);
             await _context.SaveChangesAsync();
 
@@ -118,6 +120,22 @@ namespace ProyectoSincoVersionOne.Controllers
         private bool ProfesorExists(int id)
         {
             return (_context.Profes?.Any(e => e.ProfesorID == id)).GetValueOrDefault();
+        }
+
+        private Profesor CreateProfesor(string Nombres, string Apellidos, string NumeroDeIdentificacion,
+            string Direccion, string Telefono, int Edad)
+        {
+            Profesor profesor = new()
+            {
+                ProfeName = Nombres,
+                ProfeLastName = Apellidos,
+                ProfeIdentification = NumeroDeIdentificacion,
+                ProfeAddress = Direccion,
+                ProfePhoneNumber = Telefono,
+                ProfeAge = Edad
+            };
+
+            return profesor;
         }
     }
 }

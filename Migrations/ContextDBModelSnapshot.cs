@@ -32,10 +32,16 @@ namespace ProyectoSincoVersionOne.Migrations
                     b.Property<float>("Grade")
                         .HasColumnType("real");
 
+                    b.Property<int>("MateriaID")
+                        .HasColumnType("int");
+
                     b.Property<int>("MateriaVistaID")
                         .HasColumnType("int");
 
                     b.Property<int>("StudentHistoryID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StudentID")
                         .HasColumnType("int");
 
                     b.Property<int>("Year")
@@ -43,9 +49,9 @@ namespace ProyectoSincoVersionOne.Migrations
 
                     b.HasKey("HistorialID");
 
-                    b.HasIndex("MateriaVistaID");
+                    b.HasIndex("MateriaID");
 
-                    b.HasIndex("StudentHistoryID");
+                    b.HasIndex("StudentID");
 
                     b.ToTable("Historials");
                 });
@@ -69,9 +75,12 @@ namespace ProyectoSincoVersionOne.Migrations
                     b.Property<int>("MateriaProfesorID")
                         .HasColumnType("int");
 
+                    b.Property<int>("ProfesorID")
+                        .HasColumnType("int");
+
                     b.HasKey("MateriaID");
 
-                    b.HasIndex("MateriaProfesorID");
+                    b.HasIndex("ProfesorID");
 
                     b.ToTable("Materias");
                 });
@@ -150,47 +159,47 @@ namespace ProyectoSincoVersionOne.Migrations
 
             modelBuilder.Entity("ProyectoSincoVersionOne.Models.HistorialAcademico", b =>
                 {
-                    b.HasOne("ProyectoSincoVersionOne.Models.Materia", "MateriaVista")
-                        .WithMany("HistorialMaterias")
-                        .HasForeignKey("MateriaVistaID")
+                    b.HasOne("ProyectoSincoVersionOne.Models.Materia", "MateriaFK")
+                        .WithMany("HistorialFK")
+                        .HasForeignKey("MateriaID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ProyectoSincoVersionOne.Models.Student", "StudentHistory")
-                        .WithMany("HistorialAcademicos")
-                        .HasForeignKey("StudentHistoryID")
+                    b.HasOne("ProyectoSincoVersionOne.Models.Student", "StudentFK")
+                        .WithMany("HistorialFK")
+                        .HasForeignKey("StudentID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("MateriaVista");
+                    b.Navigation("MateriaFK");
 
-                    b.Navigation("StudentHistory");
+                    b.Navigation("StudentFK");
                 });
 
             modelBuilder.Entity("ProyectoSincoVersionOne.Models.Materia", b =>
                 {
-                    b.HasOne("ProyectoSincoVersionOne.Models.Profesor", "ProfesorEncargado")
-                        .WithMany("Materias")
-                        .HasForeignKey("MateriaProfesorID")
+                    b.HasOne("ProyectoSincoVersionOne.Models.Profesor", "ProfesorFK")
+                        .WithMany("MateriaFK")
+                        .HasForeignKey("ProfesorID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ProfesorEncargado");
+                    b.Navigation("ProfesorFK");
                 });
 
             modelBuilder.Entity("ProyectoSincoVersionOne.Models.Materia", b =>
                 {
-                    b.Navigation("HistorialMaterias");
+                    b.Navigation("HistorialFK");
                 });
 
             modelBuilder.Entity("ProyectoSincoVersionOne.Models.Profesor", b =>
                 {
-                    b.Navigation("Materias");
+                    b.Navigation("MateriaFK");
                 });
 
             modelBuilder.Entity("ProyectoSincoVersionOne.Models.Student", b =>
                 {
-                    b.Navigation("HistorialAcademicos");
+                    b.Navigation("HistorialFK");
                 });
 #pragma warning restore 612, 618
         }
