@@ -24,14 +24,14 @@ namespace ProyectoSincoVersionOne.Controllers
         ///  metodo que obtiene las materias
         /// </summary>
         /// <returns></returns>
-        
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Materia>>> GetMaterias()
         {
-          if (_context.Materias == null)
-          {
-              return NotFound();
-          }
+            if (_context.Materias == null)
+            {
+                return NotFound();
+            }
             return await _context.Materias.ToListAsync();
         }
 
@@ -43,10 +43,10 @@ namespace ProyectoSincoVersionOne.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Materia>> GetMateria(int id)
         {
-          if (_context.Materias == null)
-          {
-              return NotFound();
-          }
+            if (_context.Materias == null)
+            {
+                return NotFound();
+            }
             var materia = await _context.Materias.FindAsync(id);
 
             if (materia == null)
@@ -63,6 +63,7 @@ namespace ProyectoSincoVersionOne.Controllers
         public async Task<IActionResult> PutMateria(MateriaDTO materiaDTO)
         {
             Materia materia = CreateMateria(materiaDTO);
+            materia.MateriaID = materiaDTO.MateriaID;
             _context.Entry(materia).State = EntityState.Modified;
 
             try
@@ -81,6 +82,8 @@ namespace ProyectoSincoVersionOne.Controllers
                 }
             }
 
+
+
             return NoContent();
         }
 
@@ -89,22 +92,30 @@ namespace ProyectoSincoVersionOne.Controllers
         [HttpPost]
         public async Task<ActionResult<Materia>> PostMateria(MateriaDTO materiaDTO)
         {
-          if (_context.Materias == null)
-          {
-              return Problem("Entity set 'ContextDB.Materias'  is null.");
-          }
+            if (_context.Materias == null)
+            {
+                return Problem("Entity set 'ContextDB.Materias'  is null.");
+            }
             materiaDTO.MateriaID = 0;
             Materia materia = CreateMateria(materiaDTO);
             _context.Materias.Add(materia);
 
-            try
+            if ((_context.Materias.Any(e => e.MateriaCode == materiaDTO.MateriaCode)))
             {
-                await _context.SaveChangesAsync();
+                throw new Exception("Esta Materia ya se encuentra registrada y no puede volver a ser creada, utilice la opción editar registro");
             }
-            catch
+            else
             {
-                throw new Exception("No fue posible crear la Materia, revise los datos e intente de nuevo");
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch
+                {
+                    throw new Exception("No fue posible crear la Materia, revise los datos e intente de nuevo");
+                }
             }
+
 
             return CreatedAtAction("GetMateria", new { id = materia.MateriaID }, materia);
         }
@@ -149,26 +160,20 @@ namespace ProyectoSincoVersionOne.Controllers
 
         private Materia CreateMateria(MateriaDTO materiaDTO)
         {
-            if (ProfesorExists(materiaDTO.ProfesorID))
+            if (!ProfesorExists(materiaDTO.ProfesorID))
             {
-                if((_context.Materias.Any(e => e.MateriaCode == materiaDTO.MateriaCode)))
-                {
-                    throw new Exception(" Esta Materia ya esta asignada con otro profesor");
-                }
-                else
-                {
-                    Materia materia = new()
-                    {
-                        MateriaName = materiaDTO.MateriaName,
-                        MateriaCode = materiaDTO.MateriaCode,
-                        ProfesorID =  materiaDTO.ProfesorID
-
-                    };
-                    return materia;
-                }
+                throw new Exception("El Profesor suministrado no existe");
             }
             else
-                throw new Exception(" Este Profesor no existe");
+            {
+                Materia materia = new()
+                {
+                    MateriaName = materiaDTO.MateriaName,
+                    MateriaCode = materiaDTO.MateriaCode,
+                    ProfesorID = materiaDTO.ProfesorID
+                };
+                return materia;
+            }
         }
     }
 }

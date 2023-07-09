@@ -137,15 +137,44 @@ namespace ProyectoSincoVersionOne.Controllers
 
         private HistorialAcademico CreateHistorial(HistorialDTO historialDTO)
         {
-            HistorialAcademico historialAcademico = new()
-            {
-                Year = historialDTO.PeriodoAcademico,
-                Grade = historialDTO.Calificacion,
-                MateriaID = historialDTO.MateriaID,
-                StudentID = historialDTO.StudentID
-            };
+            var consulta = (from historial in _context.Historials
+                            where historial.Year == historialDTO.PeriodoAcademico &&
+                            historial.MateriaID == historialDTO.MateriaID &&
+                            historial.StudentID == historialDTO.StudentID
+                            select historial);
 
-            return historialAcademico;
+            if (historialDTO.Calificacion < 0 || historialDTO.Calificacion > 5)
+            {
+                throw new Exception("La calificación debe ser un número positivo menor o igual a 5.00");
+            }
+            else if (historialDTO.PeriodoAcademico < 0 || historialDTO.PeriodoAcademico > 2050)
+            {
+                throw new Exception("El periodo academico debe ser un número positivo menor a 2050");
+            }
+            else if (!(_context.Students.Any(e => e.StudentID == historialDTO.StudentID)))
+            {
+                throw new Exception("El estudiante suministrado no existe");
+            }
+            else if (!(_context.Materias.Any(e => e.MateriaID == historialDTO.MateriaID)))
+            {
+                throw new Exception("La Materia suministrado no existe");
+            }
+            else if (consulta.Count()>0)
+                {
+                  throw new Exception("El estudiante ya tiene asignada la materia "+ _context.Materias.Find(historialDTO.MateriaID).MateriaName + " para el periodo academico " + historialDTO.PeriodoAcademico);
+                }
+            else
+            {
+                HistorialAcademico historialAcademico = new()
+                {
+                    Year = historialDTO.PeriodoAcademico,
+                    Grade = historialDTO.Calificacion,
+                    MateriaID = historialDTO.MateriaID,
+                    StudentID = historialDTO.StudentID
+                };
+
+                return historialAcademico;
+            }
         }
     }
 }

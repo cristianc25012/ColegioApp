@@ -91,16 +91,22 @@ namespace ProyectoSincoVersionOne.Controllers
             profeDTO.ID = 0;
             Profesor profesor = CreateProfesor(profeDTO);
             _context.Profes.Add(profesor);
-
-            try
+            
+            if ((_context.Profes.Any(e => e.ProfeIdentification == profeDTO.Identification)))
             {
-                await _context.SaveChangesAsync();
+                throw new Exception("Este profesor ya se encuentra registrado y no puede volver a ser creado, utilice la opción editar registro");
             }
-            catch {
-                throw new Exception("No fue posible crear el profesor, revise los datos e intente de nuevo");
+            else
+            {
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch
+                {
+                    throw new Exception("No fue posible crear el profesor, revise los datos e intente de nuevo");
+                }
             }
-
-
             return CreatedAtAction("GetProfesor", new { id = profesor.ProfesorID }, profesor);
         }
 
@@ -139,7 +145,11 @@ namespace ProyectoSincoVersionOne.Controllers
 
         private Profesor CreateProfesor(ProfeDTO profeDTO)
         {
-            if(profeDTO.Age >=0 && profeDTO.Age<200)
+            if(profeDTO.Age <0 || profeDTO.Age>200)
+            {
+                throw new Exception("La edad del profesor debe ser un número positivo menor a 200");
+            }
+            else
             {
                 Profesor profesor = new()
                 {
@@ -152,10 +162,6 @@ namespace ProyectoSincoVersionOne.Controllers
                 };
 
                 return profesor;
-            }
-            else
-            {
-                throw new Exception("La edad del estudiante debe ser un número positivo menor a 200");
             }
             
         }

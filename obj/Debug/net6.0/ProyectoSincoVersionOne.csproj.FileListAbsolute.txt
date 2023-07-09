@@ -267,3 +267,6 @@ C:\Users\crist\source\repos\ProyectoSincoVersionOne\obj\Debug\net6.0\ProyectoSin
 C:\Users\crist\source\repos\ProyectoSincoVersionOne\obj\Debug\net6.0\ref\ProyectoSincoVersionOne.dll
 C:\Users\crist\source\repos\ProyectoSincoVersionOne\bin\Debug\net6.0\ProyectoSincoVersionOne.xml
 C:\Users\crist\source\repos\ProyectoSincoVersionOne\obj\Debug\net6.0\ProyectoSincoVersionOne.xml
+C:\Users\crist\source\repos\ProyectoSincoVersionOne\bin\Debug\net6.0\sinco-academy\package-lock.json
+C:\Users\crist\source\repos\ProyectoSincoVersionOne\bin\Debug\net6.0\sinco-academy\package.json
+C:\Users\crist\source\repos\ProyectoSincoVersionOne\bin\Debug\net6.0\sinco-academy\public\manifest.json

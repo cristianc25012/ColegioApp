@@ -137,7 +137,15 @@ namespace ProyectoSincoVersionOne.Controllers
 
         private Student CreateStudent(StudentDTO studentDTO)
         {
-            if(studentDTO.Age >= 0 && studentDTO.Age < 200)
+            if(studentDTO.Age < 0 || studentDTO.Age > 200)
+            {
+                throw new Exception("La edad del estudiante debe ser un número positivo menor a 200");
+            }
+            else if((_context.Students.Any(e => e.StuIdentification == studentDTO.Identification)))
+            {
+                throw new Exception("Este estudiante ya se encuentra registrado y no puede volver a ser creado, utilice la opción editar registro");
+            }
+            else
             {
                 Student student = new()
                 {
@@ -149,10 +157,6 @@ namespace ProyectoSincoVersionOne.Controllers
                     Age = studentDTO.Age
                 };
                 return student;
-            }
-            else
-            {
-                throw new Exception("La edad del estudiante debe ser un número positivo menor a 200");
             }
         }
     }

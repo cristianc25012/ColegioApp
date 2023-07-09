@@ -1,0 +1,162 @@
+.TablaDeLectura {
+    height: max-content;
+    width: min-content;
+    background-color: white;
+    box-shadow: 4px 0px 15px 0px #8B8B8B;
+    padding: 8px;
+    margin: 5px;
+}
+
+.FilasTotal {
+    padding: 5px;
+    margin: 0px;
+}
+
+.FilasTotal .row {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    font-family: Poppins;
+    align-items: center;
+}
+
+.row #smallerSize {
+    width: 50px;
+    padding: 4px;
+
+}
+
+.row #smallSize {
+    width: 85px;
+    padding: 4px;
+
+}
+
+.row #mediumSize {
+    width: 140px;
+    padding: 7px;
+
+}
+
+.row #largeSize {
+    width: 180px;
+    padding: 7px;
+
+}
+
+.row #icono {
+    width: 60px;
+}
+
+.boton {
+    background-color: #192587;
+    color: #dcdddf;
+    border: none;
+    border-radius: 15%;
+    padding-inline: 14px;
+    font-size: 13px;
+    margin: 4px;
+    box-shadow: 2px 0px 7px 0px #8B8B8B;
+}
+
+.boton:hover {
+    cursor: pointer;
+    background-color: #140941;
+}
+
+.TablaDeTitulo {
+    height: max-content;
+    width: min-content;
+    background-color: #140941;
+    box-shadow: 4px 0px 15px 0px #8B8B8B;
+    padding: 15px;
+    margin: 5px;
+}
+
+.TitleRow {
+    width: max-content;
+    height: 40px;
+    display: flex;
+    flex-direction: row;
+    font-family: Poppins;
+    font-size: 110%;
+    align-items: center;
+    justify-content: left;
+    color: white;
+    padding: 5px;
+}
+
+.Titlerow #smallerSize {
+    width: 50px;
+    padding: 4px;
+}
+
+.TitleRow #smallSize {
+    width: 90px;
+    padding: 2px;
+}
+
+.TitleRow #mediumSize {
+    width: 140px;
+    padding: 7px;
+}
+
+.TitleRow #largeSize {
+    width: 180px;
+    padding: 7px;
+}
+
+.TitleRow #icono {
+    width: 120px;
+    padding: 2px;
+    display: grid;
+    place-items: center;
+}
+
+.TitleRow #largeIcono {
+    width: 180px;
+    padding: 2px;
+    display: grid;
+    place-items: center;
+}
+
+.ColumnasTotal{
+    padding: 5px;
+    margin: 0px;
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+}
+
+.ColumnasTotal .row {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    font-family: Poppins;
+    padding: 8px;
+}
+
+.ColumnasTotal .column {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    font-family: Poppins;
+    padding: 8px;
+}
+
+.column #header {
+    height: 40px;
+    width: 150px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.column #campo {
+    height: 40px;
+    width: 500px;
+    font-size: 18px;
+    font-weight: 300;
+}
