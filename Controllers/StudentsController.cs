@@ -52,7 +52,7 @@ namespace ProyectoSincoVersionOne.Controllers
 
         // PUT: api/Students/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task<IActionResult> PutStudent(StudentDTO studentDTO)
         {
             Student student = CreateStudent(studentDTO);
@@ -140,10 +140,6 @@ namespace ProyectoSincoVersionOne.Controllers
             if(studentDTO.Age < 0 || studentDTO.Age > 200)
             {
                 throw new Exception("La edad del estudiante debe ser un número positivo menor a 200");
-            }
-            else if((_context.Students.Any(e => e.StuIdentification == studentDTO.Identification)))
-            {
-                throw new Exception("Este estudiante ya se encuentra registrado y no puede volver a ser creado, utilice la opción editar registro");
             }
             else
             {

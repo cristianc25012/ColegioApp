@@ -3,27 +3,21 @@ import './TablaDeLectura.css'
 import { RiEdit2Fill } from 'react-icons/ri'
 import { MdDelete } from 'react-icons/md'
 import { BiSolidBookBookmark } from 'react-icons/bi'
-import Form from './Form'
 import Card from './Card'
+import Form from './Form'
 
-function Fila({ datos, tipo, idopc}) {
+function Fila({ datos, tipo }) {
 
-    const [visible, setVisible] = useState("0");
-    const [confirmacion, setConfirmacion] = useState(false);
+    const [visible, setVisible] = useState(false);
 
     const prb = () => {
-        setVisible("0");
+        setVisible(false);
     };
-
-    const prb2 = () =>{
-        setConfirmacion(false)
-    } 
 
     if (tipo === "/Profesors") {
         return (
             <div>
-                <div><Form visible={visible} prb={prb} data={datos} tipo={tipo} idopc={idopc}/></div>
-                <div><Card confirmacion={confirmacion} prb2={prb2}/></div>
+                <div><Form visible={visible} prb={prb} data={datos} tipo={tipo} /></div>
                 <ul className='FilasTotal'>
                     <li key={datos.profesorID} className='row'>
                         <div id='mediumSize'>{datos.profeName}</div>{" "}
@@ -33,7 +27,7 @@ function Fila({ datos, tipo, idopc}) {
                         <div id='mediumSize'>{datos.profePhoneNumber}</div>{" "}
                         <div id='largeSize'>{datos.profeAddress}</div>{" "}
                         <div id='icono'><button className='boton' onClick={() => setVisible("Editar")}><h2><RiEdit2Fill /></h2></button></div>{" "}
-                        <div id='icono'><button className='boton'onClick={() => setConfirmacion(true)}><h2><MdDelete /></h2></button></div>{" "}
+                        <div id='icono'><button className='boton'><h2><MdDelete /></h2></button></div>{" "}
                     </li>
                 </ul>
             </div>
@@ -42,7 +36,7 @@ function Fila({ datos, tipo, idopc}) {
     else if (tipo === "/Materias") {
         return (
             <div>
-                <div><Form visible={visible} prb={prb} data={datos} tipo={tipo} idopc={idopc}/></div>
+                <div><Form visible={visible} prb={prb} data={datos} tipo={tipo} /></div>
                 <ul className='FilasTotal'>
                     <li key={datos.materiaID} className='row'>
                         <div id='mediumSize'>{datos.materiaName}</div>{" "}
@@ -75,7 +69,7 @@ function Fila({ datos, tipo, idopc}) {
     else if (tipo === "/Students") {
         return (
             <div>
-                <div><Form visible={visible} prb={prb} data={datos} tipo={tipo} idopc={idopc}/></div>
+                <div><Form visible={visible} prb={prb} data={datos} tipo={tipo} /></div>
                 <ul className='FilasTotal'>
                     <li key={datos.studentID} className='row'>
                         <div id='mediumSize'>{datos.stuName}</div>{" "}
@@ -92,6 +86,9 @@ function Fila({ datos, tipo, idopc}) {
             </div>
         );
     }
+    return (
+        <div><Card visible={visible} prb={prb} /></div>
+    )
 }
 
 export default Fila

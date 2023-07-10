@@ -7,10 +7,13 @@ function Tabla({ getData, tipo }) {
         <div className='TablaDeLectura'>{ getData.map( ( val, key ) => {
             return (
                 <Fila   key = { (tipo === "/Profesors") ? val.profesorID : 
-                                    (tipo === "/student") ? val.studentID : 
-                                    (tipo === "/Materia") ? val.materiaID : 
+                                    (tipo === "/Students") ? val.studentID : 
+                                    (tipo === "/Materias") ? val.materiaID : 
                                     key } 
-                            datos = { val } tipo = { tipo } />
+                        idopc = { (tipo === "/Profesors") ? val.profesorID : 
+                        (tipo === "/Students") ? val.studentID : 
+                        (tipo === "/Materias") ? val.materiaID : 
+                        key }     datos = { val } tipo = { tipo } />
             )
         })}</div>
     )

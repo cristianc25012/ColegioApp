@@ -34,7 +34,7 @@ function TitleRow({ tipo }) {
     else if (tipo === "/Students") {
         return (
             <div>
-                <div><Form visible={visible} prb={prb} data={0} tipo={tipo} /></div>
+                <div><Form visible={visible} prb={prb} tipo={tipo} /></div>
                 <div className='TablaDeTitulo'>
                     <li className='TitleRow'>
                         <div id='mediumSize'>Nombres</div>{" "}
@@ -52,7 +52,7 @@ function TitleRow({ tipo }) {
     else if (tipo === "/Materias") {
         return (
             <div>
-                <div><Form visible={visible} prb={prb} data={0} tipo={tipo} /></div>
+                <div><Form visible={visible} prb={prb} tipo={tipo} /></div>
                 <div className='TablaDeTitulo'>
                     <li className='TitleRow'>
                         <div id='mediumSize'>Nombre</div>{" "}
