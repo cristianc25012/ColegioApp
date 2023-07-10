@@ -1,22 +1,24 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './TablaDeLectura.css'
 import { RiEdit2Fill } from 'react-icons/ri'
 import { MdDelete } from 'react-icons/md'
 import { BiSolidBookBookmark } from 'react-icons/bi'
 import Card from './Card'
+import Form from './Form'
 
 function Fila({ datos, tipo }) {
 
-    const edit = () => {
-        return (
-            <div>
-                <Card />
-            </div>
-        )
-    }
+    const [visible, setVisible] = useState("0");
+    
+    const prb = () => {
+        setVisible("0");
+    };
+
     if (tipo === "/Profesors") {
         return (
-            <ul className='FilasTotal'>
+            <div>
+                <div><Form visible={visible} prb={prb} data={datos} tipo={tipo}/></div>
+                <ul className='FilasTotal'>
                 <li key={datos.profesorID} className='row'>
                     <div id='mediumSize'>{datos.profeName}</div>{" "}
                     <div id='mediumSize'>{datos.profeLastName}</div>{" "}
@@ -24,23 +26,27 @@ function Fila({ datos, tipo }) {
                     <div id='smallerSize'>{datos.profeAge}</div>{" "}
                     <div id='mediumSize'>{datos.profePhoneNumber}</div>{" "}
                     <div id='largeSize'>{datos.profeAddress}</div>{" "}
-                    <div id='icono'><button onClick={edit} className='boton'><h2><RiEdit2Fill /></h2></button></div>{" "}
+                    <div id='icono'><button className='boton' onClick={()=>setVisible("Editar")}><h2><RiEdit2Fill /></h2></button></div>{" "}
                     <div id='icono'><button className='boton'><h2><MdDelete /></h2></button></div>{" "}
                 </li>
             </ul>
+            </div>
         );
     }
     else if (tipo === "/Materias") {
         return (
-            <ul className='FilasTotal'>
+            <div>
+                <div><Form visible={visible} prb={prb} data={datos} tipo={tipo}/></div>
+                <ul className='FilasTotal'>
                 <li key={datos.materiaID} className='row'>
                     <div id='mediumSize'>{datos.materiaName}</div>{" "}
                     <div id='smallSize'>{datos.materiaCode}</div>{" "}
                     <div id='largeSize'>{datos.profesorID}</div>{" "}
-                    <div id='icono'><button className='boton'><h2><RiEdit2Fill /></h2></button></div>{" "}
+                    <div id='icono'><button className='boton'onClick={()=>setVisible("Editar")}><h2><RiEdit2Fill /></h2></button></div>{" "}
                     <div id='icono'><button className='boton'><h2><MdDelete /></h2></button></div>{" "}
                 </li>
             </ul>
+            </div>
         );
     }
     else if (tipo === "/Reporte") {
@@ -62,7 +68,9 @@ function Fila({ datos, tipo }) {
     }
     else if (tipo === "/Students") {
         return (
-            <ul className='FilasTotal'>
+            <div>
+                <div><Form visible={visible} prb={prb} data={datos} tipo={tipo}/></div>
+                <ul className='FilasTotal'>
                 <li key={datos.studentID} className='row'>
                     <div id='mediumSize'>{datos.stuName}</div>{" "}
                     <div id='mediumSize'>{datos.stuLastName}</div>{" "}
@@ -70,13 +78,17 @@ function Fila({ datos, tipo }) {
                     <div id='smallerSize'>{datos.age}</div>{" "}
                     <div id='mediumSize'>{datos.stuPhoneNumber}</div>{" "}
                     <div id='largeSize'>{datos.stuAddress}</div>{" "}
-                    <div id='icono'><button className='boton'><h2><RiEdit2Fill /></h2></button></div>{" "}
+                    <div id='icono'><button className='boton' onClick={()=>setVisible("Editar")}><h2><RiEdit2Fill /></h2></button></div>{" "}
                     <div id='icono'><button className='boton'><h2><MdDelete /></h2></button></div>{" "}
                     <div id='icono'><button className='boton'><h2><BiSolidBookBookmark /></h2></button></div>{" "}
                 </li>
             </ul>
+            </div>
         );
     }
+    return (
+        <div><Card visible={visible} prb={prb}/></div>
+      )
 }
 
 export default Fila

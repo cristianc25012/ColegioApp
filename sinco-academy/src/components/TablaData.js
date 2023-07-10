@@ -5,6 +5,7 @@ import Tabla from './Tabla';
 function TablaData({tipo}) {
     
     const [dataApi, setDataApi] = useState([]);
+    
     useEffect(() => {
       axios.get("http://localhost:5006/api" + tipo)
         .then((response) => { setDataApi((response.data)) });

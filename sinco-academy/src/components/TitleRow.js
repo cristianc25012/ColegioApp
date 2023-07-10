@@ -1,48 +1,66 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './TablaDeLectura.css'
-import {IoPersonAddSharp} from 'react-icons/io5'
-import {MdAddBox} from 'react-icons/md'
+import { IoPersonAddSharp } from 'react-icons/io5'
+import { MdAddBox } from 'react-icons/md'
+import Card from './Card'
+import Form from './Form'
 
 function TitleRow({ tipo }) {
+
+    const [visible, setVisible] = useState("0");
+
+    const prb = () => {
+        setVisible("0");
+    };
+
     if (tipo === "/Profesors") {
         return (
-            <div className='TablaDeTitulo'>
-                <li className='TitleRow'>
-                    <div id='mediumSize'>Nombres</div>{" "}
-                    <div id='mediumSize'>Apellidos</div>{" "}
-                    <div id='mediumSize'>Identificacion</div>{" "}
-                    <div id='smallerSize'>Edad</div>{" "}
-                    <div id='mediumSize'>Telefono</div>{" "}
-                    <div id='largeSize'>Dirección</div>{" "}
-                    <div id='Icono'><h2><IoPersonAddSharp /></h2></div>{" "}
-                </li>
+            <div>
+                <div><Form visible={visible} prb={prb} data={0} tipo={tipo}/></div>
+                <div className='TablaDeTitulo'>
+                    <li className='TitleRow'>
+                        <div id='mediumSize'>Nombres</div>{" "}
+                        <div id='mediumSize'>Apellidos</div>{" "}
+                        <div id='mediumSize'>Identificacion</div>{" "}
+                        <div id='smallerSize'>Edad</div>{" "}
+                        <div id='mediumSize'>Telefono</div>{" "}
+                        <div id='largeSize'>Dirección</div>{" "}
+                        <div id='Icono'><button className='boton3' onClick={() => setVisible("Crear")}><h2><IoPersonAddSharp /></h2></button></div>{" "}
+                    </li>
+                </div>
             </div>
         );
     }
-    else if (tipo === "/Students" ) {
+    else if (tipo === "/Students") {
         return (
-            <div className='TablaDeTitulo'>
-                <li className='TitleRow'>
-                    <div id='mediumSize'>Nombres</div>{" "}
-                    <div id='mediumSize'>Apellidos</div>{" "}
-                    <div id='mediumSize'>Identificacion</div>{" "}
-                    <div id='smallerSize'>Edad</div>{" "}
-                    <div id='mediumSize'>Telefono</div>{" "}
-                    <div id='largeSize'>Dirección</div>{" "}
-                    <div id='largeIcono'><h2><IoPersonAddSharp /></h2></div>{" "}
-                </li>
+            <div>
+                <div><Form visible={visible} prb={prb} data={0} tipo={tipo} /></div>
+                <div className='TablaDeTitulo'>
+                    <li className='TitleRow'>
+                        <div id='mediumSize'>Nombres</div>{" "}
+                        <div id='mediumSize'>Apellidos</div>{" "}
+                        <div id='mediumSize'>Identificacion</div>{" "}
+                        <div id='smallerSize'>Edad</div>{" "}
+                        <div id='mediumSize'>Telefono</div>{" "}
+                        <div id='largeSize'>Dirección</div>{" "}
+                        <div id='largeIcono'><button className='boton3' onClick={() => setVisible("Crear")}><h2><IoPersonAddSharp /></h2></button></div>{" "}
+                    </li>
+                </div>
             </div>
         );
     }
     else if (tipo === "/Materias") {
         return (
-            <div className='TablaDeTitulo'>
-                <li className='TitleRow'>
-                    <div id='mediumSize'>Nombre</div>{" "}
-                    <div id='smallSize'>Codigo</div>{" "}
-                    <div id='largeSize'>Profesor Asignado</div>{" "}
-                    <div id='Icono'><h2><MdAddBox /></h2></div>{" "}
-                </li>
+            <div>
+                <div><Form visible={visible} prb={prb} data={0} tipo={tipo} /></div>
+                <div className='TablaDeTitulo'>
+                    <li className='TitleRow'>
+                        <div id='mediumSize'>Nombre</div>{" "}
+                        <div id='smallSize'>Codigo</div>{" "}
+                        <div id='largeSize'>Profesor Asignado</div>{" "}
+                        <div id='Icono'><button className='boton3' onClick={() => setVisible("Crear")}><h2><MdAddBox /></h2></button></div>{" "}
+                    </li>
+                </div>
             </div>
         );
     }
@@ -50,7 +68,7 @@ function TitleRow({ tipo }) {
         return (
             <div className='TablaDeTitulo'>
                 <li className='TitleRow'>
-                <div id='smallerSize'>Año</div>{" "}
+                    <div id='smallerSize'>Año</div>{" "}
                     <div id='mediumSize'>Identificacion del Estudiante</div>{" "}
                     <div id='mediumSize'>Nombre del Estudiante</div>{" "}
                     <div id='mediumSize'>Nombre de la Materia</div>{" "}
