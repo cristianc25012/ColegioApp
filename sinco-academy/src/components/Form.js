@@ -35,10 +35,11 @@ function Form({ visible, prb, data, tipo, idopc }) {
                 try {
                     const jsonData = JSON.stringify(formP);
                     axios.post("http://localhost:5006/api" + tipo, jsonData, {
-                        headers: {'Content-Type': 'application/json'}
+                        headers: { 'Content-Type': 'application/json' }
                     }).catch(function (error) {
-                        console.log(error.toJSON());});
-                } 
+                        console.log(error.toJSON());
+                    });
+                }
                 catch (error) {
                     console.log("Caugth");
                 }
@@ -395,17 +396,26 @@ function Form({ visible, prb, data, tipo, idopc }) {
                         <select onChange={(e) => formH.materiaID = e.target.value}>
 
                             {dataMaterias.map((val, key) => {
-                                return (<option key={key} value={val.materiaID}>{val.materiaID}</option>)
+                                return (<option key={key} value={val.materiaID}>{val.materiaName}</option>)
                             })}
                         </select>
                         <label>Año</label>
                         <input
-                            type='number' required
+                            type='number'
+                            required
                             onChange={(e) => formH.periodoAcademico = e.target.value}
                         />
                         <label>Calificacion</label>
                         <input
-                            type='number' required
+                            type='number'
+                            title="Rate"
+                            id="rate"
+                            className="form-control"
+                            min="0.00"
+                            step="0.01"
+                            max="5.00"
+                            presicion={2}
+                            required
 
                             onChange={(e) => formH.calificacion = e.target.value}
                         />
