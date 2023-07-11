@@ -1,21 +1,23 @@
+import React, { useState } from 'react'
 import Fila from "./Fila"
 import './TablaDeLectura.css'
 
-function Tabla({ getData, tipo }) {
+function Tabla({ getData, tipo}) {
 
     return (
-        <div className='TablaDeLectura'>{ getData.map( ( val, key ) => {
+        <div className='TablaDeLectura'>
+            <ul className='FilasTotal'>
+            {getData.map((val, key) => {
             return (
-                <Fila   key = { (tipo === "/Profesors") ? val.profesorID : 
-                                    (tipo === "/Students") ? val.studentID : 
-                                    (tipo === "/Materias") ? val.materiaID : 
-                                    key } 
-                        idopc = { (tipo === "/Profesors") ? val.profesorID : 
-                        (tipo === "/Students") ? val.studentID : 
-                        (tipo === "/Materias") ? val.materiaID : 
-                        key }     datos = { val } tipo = { tipo } />
-            )
-        })}</div>
+                <div key={key}>
+                    <Fila idopc={(tipo === "/Profesors") ? val.profesorID :
+                    (tipo === "/Students") ? val.studentID :
+                        (tipo === "/Materias") ? val.materiaID : key}
+                    datos={val} tipo={tipo}/>
+                </div>
+            )})}
+            </ul>
+       </div>
     )
 }
 

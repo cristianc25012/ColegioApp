@@ -66,6 +66,17 @@ namespace ProyectoSincoVersionOne.Controllers
             materia.MateriaID = materiaDTO.MateriaID;
             _context.Entry(materia).State = EntityState.Modified;
 
+            var consulta = (from m in _context.Materias
+                            where m.MateriaID == materiaDTO.MateriaID &&
+                            m.MateriaCode == materiaDTO.MateriaCode
+                            select m);
+
+            if ((_context.Materias.Any(e => e.MateriaCode == materiaDTO.MateriaCode)) && consulta.Count()==0)
+            {
+                throw new Exception("Esta Materia ya se encuentra registrada y no puede volver a ser creada, utilice la opción editar registro");
+            }
+
+
             try
             {
                 await _context.SaveChangesAsync();

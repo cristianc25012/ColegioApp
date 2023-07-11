@@ -1,12 +1,29 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import './Card.css'
 
-function Form({ visible, prb, data, tipo, idopc}) {
+function Form({ visible, prb, data, tipo, idopc }) {
 
     const [formP, setForm] = useState(
         { name: "", lastName: "", identification: "", age: 0, phoneNumber: "", address: "" });
     const [formM, setFormM] = useState({ materiaName: "", materiaCode: "", profesorID: "" });
+    const [formH, setFormH] = useState({ periodoAcademico: "", calificacion: "", studentID: "", materiaID: "" });
+
+    const [dataMaterias, setDataMaterias] = useState([]);
+    const [dataProfes, setDataProfes] = useState([]);
+
+    useEffect(() => {
+        axios.get("http://localhost:5006/api/Materias")
+            .then((response) => { setDataMaterias((response.data)) })
+            .catch((err) => console.log(err));
+    }, []);
+
+    useEffect(() => {
+        axios.get("http://localhost:5006/api/Profesors")
+            .then((response) => { setDataProfes((response.data)) })
+            .catch((err) => console.log(err));
+    }, []);
+
 
     //Seccion para la creacion de registros en la base de datos
 
@@ -17,19 +34,13 @@ function Form({ visible, prb, data, tipo, idopc}) {
             const handleSubmit = () => {
                 try {
                     const jsonData = JSON.stringify(formP);
-
-                    const r = axios.post("http://localhost:5006/api" + tipo, jsonData, {
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }
-                    });
-
-                    console.log(r.formP);
-
-                } catch (error) {
-                    console.log('rs', error.r.data);
-                    console.log('http', error.r.status);
-                    console.log('es', error.message);
+                    axios.post("http://localhost:5006/api" + tipo, jsonData, {
+                        headers: {'Content-Type': 'application/json'}
+                    }).catch(function (error) {
+                        console.log(error.toJSON());});
+                } 
+                catch (error) {
+                    console.log("Caugth");
                 }
             }
 
@@ -69,8 +80,8 @@ function Form({ visible, prb, data, tipo, idopc}) {
                                 onChange={(e) => formP.address = e.target.value}
                             />
                             <div className='botones'>
-                                <button className='boton4'>Guardar</button>
-                                <button className='boton4 cancelar' onClick={prb}>Cancelar</button>
+                                <button className='boton2'>Guardar</button>
+                                <button className='boton2 cancelar' onClick={prb}>Cancelar</button>
                             </div>
                         </form>
                     </div>
@@ -117,13 +128,14 @@ function Form({ visible, prb, data, tipo, idopc}) {
                                 onChange={(e) => formM.materiaCode = e.target.value}
                             />
                             <label>Profesor Encargado</label>
-                            <input
-                                type="text" required
-                                onChange={(e) => formM.profesorID = e.target.value}
-                            />
+                            <select onChange={(e) => formM.profesorID = e.target.value}>
+                                {dataProfes.map((val, key) => {
+                                    return (<option key={key} value={val.profesorID}>{val.profeName} {val.profeLastName}</option>)
+                                })}
+                            </select>
                             <div className='botones'>
-                                <button className='boton4'>Guardar</button>
-                                <button className='boton4 cancelar' onClick={prb} type='reset'>Cancelar</button>
+                                <button className='boton2'>Guardar</button>
+                                <button className='boton2 cancelar' onClick={prb} type='reset'>Cancelar</button>
                             </div>
                         </form>
                     </div>
@@ -139,11 +151,11 @@ function Form({ visible, prb, data, tipo, idopc}) {
         if (tipo === "/Profesors") {
 
             formP.name = data.profeName;
-            formP.lastName=data.profeLastName;
-            formP.identification=data.profeIdentification;
-            formP.age=data.profeAge;
-            formP.phoneNumber=data.profePhoneNumber;
-            formP.address=data.profeAddress;
+            formP.lastName = data.profeLastName;
+            formP.identification = data.profeIdentification;
+            formP.age = data.profeAge;
+            formP.phoneNumber = data.profePhoneNumber;
+            formP.address = data.profeAddress;
 
             const handleSubmit = () => {
                 try {
@@ -201,8 +213,8 @@ function Form({ visible, prb, data, tipo, idopc}) {
                                 onChange={(e) => formP.address = e.target.value}
                             />
                             <div className='botones'>
-                                <button className='boton4'>Guardar</button>
-                                <button className='boton4 cancelar' onClick={prb}>Cancelar</button>
+                                <button className='boton2'>Guardar</button>
+                                <button className='boton2 cancelar' onClick={prb}>Cancelar</button>
                             </div>
                         </form>
                     </div>
@@ -213,11 +225,11 @@ function Form({ visible, prb, data, tipo, idopc}) {
         if (tipo === "/Students") {
 
             formP.name = data.stuName;
-            formP.lastName=data.stuLastName;
-            formP.identification=data.stuIdentification;
-            formP.age=data.age;
-            formP.phoneNumber=data.stuPhoneNumber;
-            formP.address=data.stuAddress;
+            formP.lastName = data.stuLastName;
+            formP.identification = data.stuIdentification;
+            formP.age = data.age;
+            formP.phoneNumber = data.stuPhoneNumber;
+            formP.address = data.stuAddress;
 
             const handleSubmit = () => {
                 try {
@@ -275,8 +287,8 @@ function Form({ visible, prb, data, tipo, idopc}) {
                                 onChange={(e) => formP.address = e.target.value}
                             />
                             <div className='botones'>
-                                <button className='boton4'>Guardar</button>
-                                <button className='boton4 cancelar' onClick={prb}>Cancelar</button>
+                                <button className='boton2'>Guardar</button>
+                                <button className='boton2 cancelar' onClick={prb}>Cancelar</button>
                             </div>
                         </form>
                     </div>
@@ -285,14 +297,14 @@ function Form({ visible, prb, data, tipo, idopc}) {
         }
 
         else if (tipo === "/Materias") {
-            
+
             formM.materiaName = data.materiaName;
             formM.materiaCode = data.materiaCode;
             formM.profesorID = data.profesorID;
 
             const handleSubmit = () => {
                 try {
-                    
+
                     formM.materiaID = idopc;
 
                     const jsonData = JSON.stringify(formM);
@@ -322,7 +334,7 @@ function Form({ visible, prb, data, tipo, idopc}) {
                         <form className='Formulario' onSubmit={handleSubmit} onAbort={handleAbort}>
                             <label>Nombre</label>
                             <input
-                                type="text" required 
+                                type="text" required
                                 defaultValue={data.materiaName}
                                 onChange={(e) => formM.materiaName = e.target.value}
                             />
@@ -333,20 +345,78 @@ function Form({ visible, prb, data, tipo, idopc}) {
                                 onChange={(e) => formM.materiaCode = e.target.value}
                             />
                             <label>Profesor Encargado</label>
-                            <input
-                                type="text" required
-                                defaultValue={data.profesorID}
-                                onChange={(e) => formM.profesorID = e.target.value}
-                            />
+                            <select onChange={(e) => formM.profesorID = e.target.value}>
+                                {dataProfes.map((val, key) => {
+                                    return (<option key={key} value={val.profesorID}>{val.profeName} {val.profeLastName}</option>)
+                                })}
+                            </select>
+
                             <div className='botones'>
-                                <button className='boton4'>Guardar</button>
-                                <button className='boton4 cancelar' onClick={prb} type='reset'>Cancelar</button>
+                                <button className='boton2'>Guardar</button>
+                                <button className='boton2 cancelar' onClick={prb} type='reset'>Cancelar</button>
                             </div>
                         </form>
                     </div>
                 </div>
             )
         }
+    }
+
+    if (visible === "Calificar") {
+
+        const handleSubmit = () => {
+            try {
+
+                formH.studentID = data.studentID;
+
+                const jsonData = JSON.stringify(formH);
+
+                const r = axios.post("http://localhost:5006/api/HistorialAcademicoes", jsonData, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                console.log(r.formH);
+
+            } catch (error) {
+                console.log('rs', error.r.data);
+                console.log('http', error.r.status);
+                console.log('es', error.message);
+            }
+        }
+
+        return (
+            <div className='PanelBlur'>
+                <div className='TablaFormulario'>
+                    <div className='CardTitle'><div id='title'>{visible}</div></div>
+                    <form className='Formulario' onSubmit={handleSubmit}>
+                        <label>Materia</label>
+                        <select onChange={(e) => formH.materiaID = e.target.value}>
+
+                            {dataMaterias.map((val, key) => {
+                                return (<option key={key} value={val.materiaID}>{val.materiaID}</option>)
+                            })}
+                        </select>
+                        <label>Año</label>
+                        <input
+                            type='number' required
+                            onChange={(e) => formH.periodoAcademico = e.target.value}
+                        />
+                        <label>Calificacion</label>
+                        <input
+                            type='number' required
+
+                            onChange={(e) => formH.calificacion = e.target.value}
+                        />
+                        <div className='botones'>
+                            <button className='boton2'>Guardar</button>
+                            <button className='boton2 cancelar' onClick={prb} type='reset'>Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        )
     }
 
 

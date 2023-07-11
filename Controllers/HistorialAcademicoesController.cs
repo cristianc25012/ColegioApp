@@ -157,7 +157,7 @@ namespace ProyectoSincoVersionOne.Controllers
             }
             else if (!(_context.Materias.Any(e => e.MateriaID == historialDTO.MateriaID)))
             {
-                throw new Exception("La Materia suministrado no existe");
+                throw new Exception("La Materia suministrada no existe");
             }
             else if (consulta.Count()>0)
                 {

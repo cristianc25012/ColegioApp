@@ -1,18 +1,35 @@
 import React from 'react'
-import './TablaDeLectura.css'
+import './Card.css'
+import axios from 'axios'
 
-function Card({ confirmacion, prb2 }) {
+function Card({ confirmacion, prb2, tipo, idopc }) {
+
+    const deleteRecord = () => {
+        try {
+
+            axios.delete("http://localhost:5006/api" + tipo + "/" + idopc)
+                .then(prb2, window.location.reload(true));
+
+        } catch (error) {
+            console.log('rs', error.r.data);
+            console.log('http', error.r.status);
+            console.log('es', error.message);
+        }
+    }
 
     if (confirmacion === true) {
         return (
             <div className='PanelBlur'>
-                <div className='TablaDeLectura'>
+                <div className='TablaFormulario'>
                     <div className='CardTitle'><div id='title'>Eliminar Registro</div></div>
-                    <div>
-                        Desea Eliminar?
+                    <div className='mensaje'>
+                        Desea eliminar este registro?
                     </div>
-                    <button className='boton4'>Guardar</button>
-                    <button className='boton4 cancelar' onClick={prb2}>Cancelar</button>
+                    <div className='botones'>
+                        <button className='boton2' onClick={() => deleteRecord()}>Guardar</button>
+                        <button className='boton2 cancelar' onClick={prb2}>Cancelar</button>
+                    </div>
+
                 </div>
             </div>
         )

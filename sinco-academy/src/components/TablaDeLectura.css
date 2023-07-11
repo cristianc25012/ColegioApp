@@ -1,13 +1,3 @@
-.PanelBlur{
-    position: absolute;
-    display: grid;
-    place-items: center;
-    left: 0;
-    top: 0;
-    background-color: rgba(128, 128, 128, 0.8);
-    height: 100%;
-    width: 100%;
-}
 .TablaDeLectura {
     height: max-content;
     width: min-content;
@@ -18,7 +8,7 @@
 }
 
 .FilasTotal {
-    padding: 15px;
+    padding: 0;
     margin: 0px;
 }
 
@@ -29,52 +19,20 @@
     flex-direction: row;
     font-family: Poppins;
     align-items: center;
-}
-
-.botones{
-    justify-content: right;
-}
-
-.row #smallerSize {
-    width: 50px;
-    padding: 4px;
-
-}
-
-.row #smallSize {
-    width: 85px;
-    padding: 4px;
-
-}
-
-.row #mediumSize {
-    width: 140px;
-    padding: 7px;
-
-}
-
-.row #largeSize {
-    width: 180px;
-    padding: 7px;
-}
-
-.row #largerSize {
-    width: 120px;
-    padding: 7px;
-}
-
-.row #icono {
-    width: 60px;
+    border: 1px solid black;
+    padding-top: 2px;
+    padding-bottom: 2px;
 }
 
 .boton {
-    background-color: #192587;
+    background-color: #36b04b;
     color: #dcdddf;
     border: none;
     border-radius: 15%;
-    padding-inline: 14px;
-    font-size: 13px;
-    margin: 4px;
+    height: 45px;
+    width: 45px;
+    font-size: 10px;
+    margin: 2px;
     box-shadow: 2px 0px 7px 0px #8B8B8B;
     transition: 0.2s ease;
 }
@@ -84,46 +42,22 @@
     box-shadow: 2px 0px 7px 0px black;
 }
 
-.boton2 {
-    background-color: rgb(0, 193, 0);
-    color: #ffff;
-    border: none;
-    border-radius: 10px;
-    padding-inline: 14px;
-    font-size: 13px;
-    margin: 4px;
-    box-shadow: 2px 0px 7px 0px #8B8B8B;
-    transition: 0.2s ease;
+.borrar{
+    background-color: #b90e28;
 }
 
-.cancelar{
-    background-color: red;
+.historial{
+    background-color: #ff6358;
 }
 
-.boton2:hover {
+.add{
+    background-color: #3badec;
+    box-shadow: none;
+}
+
+.add:hover {
     cursor: pointer;
-    box-shadow: 2px 0px 7px 0px black;
-}
-
-.cancelar:hover{
-    cursor: pointer;
-    box-shadow: 2px 0px 7px 0px black;
-}
-
-.boton3 {
-    background-color: #192587;
-    color: #dcdddf;
-    border: none;
-    border-radius: 15%;
-    padding-inline: 14px;
-    font-size: 13px;
-    margin: 4px;
-    transition: 0.2s ease;
-}
-
-.boton3:hover {
-    cursor: pointer;
-    box-shadow: 2px 0px 7px 0px black;
+    box-shadow: 2px 0px 15px 0px black;
 }
 
 .TablaDeTitulo {
@@ -131,44 +65,57 @@
     width: min-content;
     background-color: #140941;
     box-shadow: 4px 0px 15px 0px #8B8B8B;
-    padding: 15px;
+    padding: 5px;
+    padding-inline: 10px;
     margin: 5px;
 }
 
 .TitleRow {
     width: max-content;
-    height: 40px;
+    height: max-content;
     display: flex;
     flex-direction: row;
     font-family: Poppins;
-    font-size: 110%;
+    font-size: 15px;
     align-items: center;
     justify-content: left;
     color: white;
-    padding: 5px;
+    padding: 0px;
 }
 
-.Titlerow #smallerSize {
+.smallerSize {
     width: 50px;
     padding: 4px;
 }
 
-.TitleRow #smallSize {
+.smallSize {
     width: 90px;
     padding: 2px;
 }
 
-.TitleRow #mediumSize {
+.mediumSize {
     width: 140px;
     padding: 7px;
 }
 
-.TitleRow #largeSize {
+.largeSize {
     width: 180px;
     padding: 7px;
 }
 
-.TitleRow #icono {
+.largerSize {
+    width: 280px;
+    padding: 7px;
+}
+
+.icono {
+    width: 60px;
+    padding-bottom: 2px;
+    display: grid;
+    place-items: center;
+}
+
+.mediumIcono {
     width: 120px;
     padding: 2px;
     display: grid;
@@ -176,70 +123,9 @@
 }
 
 
-.TitleRow #largeIcono {
+.largeIcono {
     width: 180px;
     padding: 2px;
     display: grid;
     place-items: center;
-}
-
-.ColumnasTotal{
-    padding: 5px;
-    margin: 0px;
-    display: flex;
-    flex-direction: row;
-    justify-content: left;
-}
-
-.ColumnasTotal .row {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: row;
-    font-family: Poppins;
-    padding: 8px;
-}
-
-.ColumnasTotal .column {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    font-family: Poppins;
-    padding: 8px;
-}
-
-.column .header {
-    height: 40px;
-    width: 100px;
-    font-size: 16px;
-    font-weight: 600;
-    margin: 8px;
-}
-
-.column .campo {
-    height: 40px;
-    width: 500px;
-    font-size: 15px;
-    font-weight: 300;
-    margin: 8px;
-    background-color: #eef2f3;
-    border: 2px solid blue;
-    border-radius: 10px;
-    padding-left: 8px;
-}
-
-.CardTitle{
-    width: 100%;
-    height: max-content;
-    border: 0px;
-    color: #ffff;
-    font-family: Poppins;
-    font-size: 16px;
-    font-weight: 600;
-    background-color:  #192587;
-}
-
-.CardTitle #title{
-    padding: 8px;
 }

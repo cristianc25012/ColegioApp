@@ -1,5 +1,8 @@
 .App {
-  height: 100vmin;
+  height: 100vh;
+
+  background-size: cover;
+
   background: #8e9eab;
   /* fallback for old browsers */
   background: -webkit-linear-gradient(to right,  #8e9eab, #eef2f3);

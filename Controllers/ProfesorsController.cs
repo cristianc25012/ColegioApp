@@ -60,6 +60,16 @@ namespace ProyectoSincoVersionOne.Controllers
             profesor.ProfesorID = profeDTO.ID;
             _context.Entry(profesor).State = EntityState.Modified;
 
+            var consulta = (from profesorC in _context.Profes
+                            where profesorC.ProfesorID == profeDTO.ID &&
+                            profesorC.ProfeIdentification == profeDTO.Identification
+                            select profesorC);
+
+            if ((_context.Profes.Any(e => e.ProfeIdentification == profeDTO.Identification)) && consulta.Count()==0)
+            {
+                throw new Exception("Este profesor ya se encuentra registrado y no puede volver a ser creado, utilice la opción editar registro");
+            }
+
             try
             {
                 await _context.SaveChangesAsync();

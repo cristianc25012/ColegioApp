@@ -19,13 +19,14 @@ function TitleRow({ tipo }) {
                 <div><Form visible={visible} prb={prb} data={0} tipo={tipo}/></div>
                 <div className='TablaDeTitulo'>
                     <li className='TitleRow'>
-                        <div id='mediumSize'>Nombres</div>{" "}
-                        <div id='mediumSize'>Apellidos</div>{" "}
-                        <div id='mediumSize'>Identificacion</div>{" "}
-                        <div id='smallerSize'>Edad</div>{" "}
-                        <div id='mediumSize'>Telefono</div>{" "}
-                        <div id='largeSize'>Dirección</div>{" "}
-                        <div id='Icono'><button className='boton3' onClick={() => setVisible("Crear")}><h2><IoPersonAddSharp /></h2></button></div>{" "}
+                        <div className='mediumSize'>Nombres</div>{" "}
+                        <div className='mediumSize'>Apellidos</div>{" "}
+                        <div className='mediumSize'>Identificacion</div>{" "}
+                        <div className='smallerSize'>Edad</div>{" "}
+                        <div className='mediumSize'>Telefono</div>{" "}
+                        <div className='largeSize'>Dirección</div>{" "}
+                        <div className='mediumIcono'><button className='boton add' 
+                        onClick={() => setVisible("Crear")}><h2><IoPersonAddSharp /></h2></button></div>{" "}
                     </li>
                 </div>
             </div>
@@ -37,13 +38,14 @@ function TitleRow({ tipo }) {
                 <div><Form visible={visible} prb={prb} tipo={tipo} /></div>
                 <div className='TablaDeTitulo'>
                     <li className='TitleRow'>
-                        <div id='mediumSize'>Nombres</div>{" "}
-                        <div id='mediumSize'>Apellidos</div>{" "}
-                        <div id='mediumSize'>Identificacion</div>{" "}
-                        <div id='smallerSize'>Edad</div>{" "}
-                        <div id='mediumSize'>Telefono</div>{" "}
-                        <div id='largeSize'>Dirección</div>{" "}
-                        <div id='largeIcono'><button className='boton3' onClick={() => setVisible("Crear")}><h2><IoPersonAddSharp /></h2></button></div>{" "}
+                        <div className='mediumSize'>Nombres</div>{" "}
+                        <div className='mediumSize'>Apellidos</div>{" "}
+                        <div className='mediumSize'>Identificacion</div>{" "}
+                        <div className='smallerSize'>Edad</div>{" "}
+                        <div className='mediumSize'>Telefono</div>{" "}
+                        <div className='largeSize'>Dirección</div>{" "}
+                        <div className='largeIcono'><button className='boton add' 
+                        onClick={() => setVisible("Crear")}><h2><IoPersonAddSharp /></h2></button></div>{" "}
                     </li>
                 </div>
             </div>
@@ -55,10 +57,11 @@ function TitleRow({ tipo }) {
                 <div><Form visible={visible} prb={prb} tipo={tipo} /></div>
                 <div className='TablaDeTitulo'>
                     <li className='TitleRow'>
-                        <div id='mediumSize'>Nombre</div>{" "}
-                        <div id='smallSize'>Codigo</div>{" "}
-                        <div id='largeSize'>Profesor Asignado</div>{" "}
-                        <div id='Icono'><button className='boton3' onClick={() => setVisible("Crear")}><h2><MdAddBox /></h2></button></div>{" "}
+                        <div className='mediumSize'>Nombre</div>{" "}
+                        <div className='smallSize'>Codigo</div>{" "}
+                        <div className='largerSize'>Profesor Asignado</div>{" "}
+                        <div className='mediumIcono'><button className='boton add'
+                         onClick={() => setVisible("Crear")}><h2><MdAddBox /></h2></button></div>{" "}
                     </li>
                 </div>
             </div>
@@ -68,15 +71,30 @@ function TitleRow({ tipo }) {
         return (
             <div className='TablaDeTitulo'>
                 <li className='TitleRow'>
-                    <div id='smallerSize'>Año</div>{" "}
-                    <div id='mediumSize'>Identificacion del Estudiante</div>{" "}
-                    <div id='mediumSize'>Nombre del Estudiante</div>{" "}
-                    <div id='mediumSize'>Nombre de la Materia</div>{" "}
-                    <div id='smallSize'>Codigo Materia</div>{" "}
-                    <div id='mediumSize'>Identificacion del Profesor</div>{" "}
-                    <div id='mediumSize'>Nombre del Profesor</div>{" "}
-                    <div id='smallerSize'>Nota Final</div>{" "}
-                    <div id='smallSize'>Estado</div>{" "}
+                    <div className='smallerSize'>Año</div>{" "}
+                    <div className='mediumSize'>Identificacion del Estudiante</div>{" "}
+                    <div className='mediumSize'>Nombre del Estudiante</div>{" "}
+                    <div className='mediumSize'>Nombre de la Materia</div>{" "}
+                    <div className='smallSize'>Codigo Materia</div>{" "}
+                    <div className='mediumSize'>Identificacion del Profesor</div>{" "}
+                    <div className='mediumSize'>Nombre del Profesor</div>{" "}
+                    <div className='smallerSize'>Nota Final</div>{" "}
+                    <div className='smallSize'>Estado</div>{" "}
+                </li>
+            </div>
+        );
+    }
+    else if (tipo === "/HistorialAcademicoes") {
+        return (
+            <div className='TablaDeTitulo'>
+                <li className='TitleRow'>
+                    <div className='smallerSize'>Año</div>{" "}
+                    <div className='mediumSize'>Identificacion del Estudiante</div>{" "}
+                    <div className='smallSize'>Codigo Materia</div>{" "}
+                    <div className='smallerSize'>Nota Final</div>{" "}
+                    <div className='smallSize'>Estado</div>{" "}
+                    <div className='mediumIcono'><button className='boton add' 
+                    onClick={() => setVisible("Crear")}><h2><MdAddBox /></h2></button></div>{" "}
                 </li>
             </div>
         );
