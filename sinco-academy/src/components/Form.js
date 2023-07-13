@@ -6,7 +6,7 @@ import './Card.css'
 //esconderForm es un una función que sirve para cerrar el formulario, se recibe como prop desde el componente Fila. 
 //data es obtenida por el componente tabla data y mapeada por el componente tabla, se recibe desde tabla. 
 //idopc es el id de los datos enviados, este cambia segun el tipo, esto es asignado en el componente tabla
-function Form({ formularioTipo, esconderForm, data, tipo, idopc }) {
+function Form({ formularioTipo, esconderForm, data, tipo, idopc}) {
     
     //Esta seccion de codigo son las constantes que almacenan los valores de los inputs, estos seran posteriormente
     //enviados en forma de arreglo desde los formularios con la funcion onSubmit. Se creó tres tipos diferentes de arreglos
@@ -39,24 +39,31 @@ function Form({ formularioTipo, esconderForm, data, tipo, idopc }) {
 
     //Esta funcion maneja los errores al momento de publicar o editar un registro 
     const showAlert = (errorShow) => {
-        alert(errorShow.response.data.substring(errorShow.response.data.indexOf('at'), 18).trim());
+        alert(errorShow.response.data.substring(errorShow.response.data.indexOf('at Proyecto'), 18).trim());
     }
 
     //Esta funcion crea los registros en la base de datos, recibe como paremetro los datos a crear en forma de arreglo
-    const postButton = (sentData) => {
-
-        axios.post("http://localhost:5006/api" + tipo, JSON.stringify(sentData), {
+    const postButton = async (sentData, e) => {
+        
+        e.preventDefault(); 
+        await axios.post("http://localhost:5006/api" + tipo, JSON.stringify(sentData), {
             headers: { 'Content-Type': 'application/json' }
-        }).catch(err => showAlert(err.response));
+        }).catch((err) => showAlert(err));
+
+
+        esconderForm();
 
     }
 
     //Esta funcion edita los registros en la base de datos, recibe como paremetro los datos a editar en forma de arreglo
-    const putButton = (sentData) => {
+    const putButton = async (sentData, e) => {
 
-        axios.put("http://localhost:5006/api" + tipo + "/" + idopc, JSON.stringify(sentData), {
+        e.preventDefault(); 
+        await axios.put("http://localhost:5006/api" + tipo + "/" + idopc, JSON.stringify(sentData), {
             headers: { 'Content-Type': 'application/json' }
-        }).catch(err => showAlert(err));
+        }).catch((err) => showAlert(err));
+
+        esconderForm();
 
     }
 
@@ -71,7 +78,7 @@ function Form({ formularioTipo, esconderForm, data, tipo, idopc }) {
                 <div className='PanelBlur'>
                     <div className='TablaFormulario'>
                         <div className='CardTitle'><div id='title'>{formularioTipo}</div></div>
-                        <form className='Formulario' onSubmit={() => postButton(formP)}>
+                        <form className='Formulario' onSubmit={(e) => postButton(formP, e)}>
                             <label>Nombre</label>
                             <input
                                 type="text" required
@@ -120,7 +127,7 @@ function Form({ formularioTipo, esconderForm, data, tipo, idopc }) {
                 <div className='PanelBlur'>
                     <div className='TablaFormulario'>
                         <div className='CardTitle'><div id='title'>{formularioTipo}</div></div>
-                        <form className='Formulario' onSubmit={() => postButton(formM)}>
+                        <form className='Formulario' onSubmit={(e) => postButton(formM, e)}>
                             <label>Nombre</label>
                             <input
                                 type="text" required
@@ -169,7 +176,7 @@ function Form({ formularioTipo, esconderForm, data, tipo, idopc }) {
                 <div className='PanelBlur'>
                     <div className='TablaFormulario'>
                         <div className='CardTitle'><div id='title'>{formularioTipo}</div></div>
-                        <form className='Formulario' onSubmit={() => putButton(formP)} >
+                        <form className='Formulario' onSubmit={(e) => putButton(formP,e)} >
                             <label>Nombre</label>
                             <input
                                 type="text" required defaultValue={data.profeName}
@@ -227,7 +234,7 @@ function Form({ formularioTipo, esconderForm, data, tipo, idopc }) {
                 <div className='PanelBlur'>
                     <div className='TablaFormulario'>
                         <div className='CardTitle'><div id='title'>{formularioTipo}</div></div>
-                        <form className='Formulario' onSubmit={() => putButton(formP)}>
+                        <form className='Formulario' onSubmit={(e) => putButton(formP, e)}>
                             <label>Nombre</label>
                             <input
                                 type="text" required defaultValue={data.stuName}
@@ -282,7 +289,7 @@ function Form({ formularioTipo, esconderForm, data, tipo, idopc }) {
                 <div className='PanelBlur'>
                     <div className='TablaFormulario'>
                         <div className='CardTitle'><div id='title'>{formularioTipo}</div></div>
-                        <form className='Formulario' onSubmit={() => putButton(formM)}>
+                        <form className='Formulario' onSubmit={(e) => putButton(formM, e)}>
                             <label>Nombre</label>
                             <input
                                 type="text" required
@@ -324,7 +331,7 @@ function Form({ formularioTipo, esconderForm, data, tipo, idopc }) {
             <div className='PanelBlur'>
                 <div className='TablaFormulario'>
                     <div className='CardTitle'><div id='title'>{formularioTipo}</div></div>
-                    <form className='Formulario' onSubmit={() => postButton(formH)}>
+                    <form className='Formulario' onSubmit={(e) => postButton(formH, e)}>
                         <label>Materia</label>
                         <select onChange={(e) => formH.materiaID = e.target.value}>
                             {dataMaterias.map((val, key) => {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './TablaDeLectura.css'
 import { IoPersonAddSharp } from 'react-icons/io5'
 import { MdAddBox } from 'react-icons/md'
@@ -6,7 +6,7 @@ import Form from './Form'
 
 //Esta componente dibuja una barra de titulo sobre la tabla, se recibe como parametro el tipo de tabla 
 //a fin de determinar los titulos a dibujar 
-function TitleRow({ tipo }) {
+function TitleRow({ tipo, reloadComponent }) {
 
     //Estos estados se utilizan para determinar el tipo de formulario que se dibujará al oprimir un boton en la fila
     const [formularioTipo, setformularioTipo] = useState("0");
@@ -15,6 +15,10 @@ function TitleRow({ tipo }) {
     const esconderForm = () => {
         setformularioTipo("0");
     };
+
+    useEffect(() => {
+        reloadComponent(formularioTipo);
+    }, [formularioTipo]);
 
     //Esta seccion dibuja al barra de titulo para la pagina profesores
     if (tipo === "/Profesors") {

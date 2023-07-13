@@ -6,7 +6,7 @@ import './TablaDeLectura.css'
 //Este componente dibuja una fila por cada mapeo de la data obtenida. 
 //Este componente recibe los datos desde el componente TablaData mediante el prop getData
 //El tipo de tabla indica que controlador se esta usando para obtener los datos
-function Tabla({ getData, tipo}) {
+function Tabla({ getData, tipo, reloadComponent}) {
 
     return (
         <div className='TablaDeLectura'>
@@ -17,7 +17,7 @@ function Tabla({ getData, tipo}) {
                     <Fila idopc={(tipo === "/Profesors") ? val.profesorID :
                                  (tipo === "/Students") ? val.studentID :
                                  (tipo === "/Materias") ? val.materiaID : key}
-                    datos={val} tipo={tipo}/>
+                    datos={val} tipo={tipo} reloadComponent={reloadComponent}/>
                 </div>
             )})}
             </ul>

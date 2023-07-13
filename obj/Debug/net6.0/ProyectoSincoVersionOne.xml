@@ -4,17 +4,259 @@
         <name>ProyectoSincoVersionOne</name>
     </assembly>
     <members>
-        <member name="M:ProyectoSincoVersionOne.Controllers.MateriasController.GetMaterias">
+        <member name="T:ProyectoSincoVersionOne.Controllers.HistorialAcademicoesController">
             <summary>
-             metodo que obtiene las materias
+            Controlador de la tabla Historial Academicoes, permite crear, editar, consultar, consultar por ID y eliminar
+            Adicionalmente se encarga de verificar la informacion y lanzar excepciones según sea necesario
+            a fin de evitar registros no deseados y manejar de forma correcta los posibles errores durante su 
+            implementacion. Varios de sus métodos no se encuentran implementados en el front pero pueden usarse desde Swagger
+            </summary>
+        </member>
+        <member name="M:ProyectoSincoVersionOne.Controllers.HistorialAcademicoesController.#ctor(ProyectoSincoVersionOne.Models.ContextDB)">
+            <summary>
+            Recibe como contexto el modelo de base de datos y crea una instancia de este
+            </summary>
+            <param name="context"></param>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:ProyectoSincoVersionOne.Controllers.HistorialAcademicoesController.GetHistorials" -->
+        <member name="M:ProyectoSincoVersionOne.Controllers.HistorialAcademicoesController.GetHistorialAcademico(System.Int32)">
+            <summary>
+            Método que permite consultar un historial especifico en la base de datos usando como filtro el ID, actualmente este método no esta en uso en el front
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="M:ProyectoSincoVersionOne.Controllers.HistorialAcademicoesController.PutHistorialAcademico(ProyectoSincoVersionOne.DTOs.HistorialDTO)">
+            <summary>
+            Metodo que permite editar un historial usando como filtro el id, actualmente el método no esta en uso en el front
+            </summary>
+            <param name="historialDTO"></param>
+            <returns></returns>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="M:ProyectoSincoVersionOne.Controllers.HistorialAcademicoesController.PostHistorialAcademico(ProyectoSincoVersionOne.DTOs.HistorialDTO)">
+            <summary>
+            Metodo que permite crear un historial nuevo
+            </summary>
+            <param name="historialDTO"></param>
+            <returns></returns>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:ProyectoSincoVersionOne.Controllers.HistorialAcademicoesController.DeleteHistorialAcademico(System.Int32)" -->
+        <member name="M:ProyectoSincoVersionOne.Controllers.HistorialAcademicoesController.HistorialAcademicoExists(System.Int32)">
+            <summary>
+            Metodo que confirma si el historial existe usando como filtro el id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ProyectoSincoVersionOne.Controllers.HistorialAcademicoesController.CreateHistorial(ProyectoSincoVersionOne.DTOs.HistorialDTO)">
+            <summary>
+            Método que permite crear un nuevo historial temporal a partir de un historialDTO
+            </summary>
+            <param name="historialDTO"></param>
+            <returns></returns>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="T:ProyectoSincoVersionOne.Controllers.MateriasController">
+            <summary>
+            Controlador de la tabla Materias, permite crear, editar, consultar, consultar por ID y eliminar
+            Adicionalmente se encarga de verificar la informacion y lanzar excepciones según sea necesario
+            a fin de evitar registros no deseados y manejar de forma correcta los posibles errores durante su 
+            implementacion
+            </summary>
+        </member>
+        <member name="M:ProyectoSincoVersionOne.Controllers.MateriasController.#ctor(ProyectoSincoVersionOne.Models.ContextDB)">
+            <summary>
+            Recibe como contexto el modelo de base de datos y crea una instancia de este
+            </summary>
+            <param name="context"></param>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:ProyectoSincoVersionOne.Controllers.MateriasController.GetMaterias" -->
+        <member name="M:ProyectoSincoVersionOne.Controllers.MateriasController.GetMateria(System.Int32)">
+            <summary>
+             metodo que obtiene una materia en la base de datos usando id como filtro
+            </summary>
+            <param name="id">id de meateria a consultar</param>
+            <returns></returns>
+        </member>
+        <member name="M:ProyectoSincoVersionOne.Controllers.MateriasController.PutMateria(ProyectoSincoVersionOne.DTOs.MateriaDTO)">
+            <summary>
+            metodo que edita una materia en la base de datos usando id como filtro
+            </summary>
+            <param name="materiaDTO"></param>
+            <returns></returns>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="M:ProyectoSincoVersionOne.Controllers.MateriasController.PostMateria(ProyectoSincoVersionOne.DTOs.MateriaDTO)">
+            <summary>
+             metodo que crea una materia en la base de datos 
+            </summary>
+            <param name="materiaDTO"></param>
+            <returns></returns>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="M:ProyectoSincoVersionOne.Controllers.MateriasController.DeleteMateria(System.Int32)">
+            <summary>
+            metodo que elimina una materia en la base de datos usando id como filtro
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="M:ProyectoSincoVersionOne.Controllers.MateriasController.MateriaExists(System.Int32)">
+            <summary>
+            metodo que confirma si una materia existe
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ProyectoSincoVersionOne.Controllers.MateriasController.ProfesorExists(System.Int32)">
+            <summary>
+            metodo que confirma si un profesor existe
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ProyectoSincoVersionOne.Controllers.MateriasController.CreateMateria(ProyectoSincoVersionOne.DTOs.MateriaDTO)">
+            <summary>
+             Método que permite crear una nueva materia temporal a partir de una materiaDTO
+            </summary>
+            <param name="materiaDTO"></param>
+            <returns></returns>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="T:ProyectoSincoVersionOne.Controllers.ProfesorsController">
+            <summary>
+            Controlador de la tabla Profesors, permite crear, editar, consultar, consultar por ID y eliminar
+            Adicionalmente se encarga de verificar la informacion y lanzar excepciones según sea necesario
+            a fin de evitar registros no deseados y manejar de forma correcta los posibles errores durante su 
+            implementacion
+            </summary>
+        </member>
+        <member name="M:ProyectoSincoVersionOne.Controllers.ProfesorsController.#ctor(ProyectoSincoVersionOne.Models.ContextDB)">
+            <summary>
+            Recibe como contexto el modelo de base de datos y crea una instancia de este
+            </summary>
+            <param name="context"></param>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:ProyectoSincoVersionOne.Controllers.ProfesorsController.GetProfes" -->
+        <member name="M:ProyectoSincoVersionOne.Controllers.ProfesorsController.GetProfesor(System.Int32)">
+            <summary>
+            Método que permite obtener un profesor en la base de datos usando como filtro su id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="M:ProyectoSincoVersionOne.Controllers.ProfesorsController.PutProfesor(ProyectoSincoVersionOne.DTOs.ProfeDTO)">
+            <summary>
+            Método que permite editar un profesor en la base de datos usando como filtro su id
+            </summary>
+            <param name="profeDTO"></param>
+            <returns></returns>
+            <exception cref="T:System.Exception"> no se puede crear dos profesores con la misma identificacion o con datos fuera de rango</exception>
+        </member>
+        <member name="M:ProyectoSincoVersionOne.Controllers.ProfesorsController.PostProfesor(ProyectoSincoVersionOne.DTOs.ProfeDTO)">
+            <summary>
+            Método que permite crear un profesor en la base de datos 
+            </summary>
+            <param name="profeDTO"></param>
+            <returns></returns>
+            <exception cref="T:System.Exception"> no se puede crear dos profesores con la misma identificacion o con datos fuera de rango</exception>
+        </member>
+        <member name="M:ProyectoSincoVersionOne.Controllers.ProfesorsController.DeleteProfesor(System.Int32)">
+            <summary>
+            Método que permite borrar un profesor en la base de datos usando como filtro su id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+            <exception cref="T:System.Exception"> Excepcion en caso de no encontrar el id solicitado</exception>
+        </member>
+        <member name="M:ProyectoSincoVersionOne.Controllers.ProfesorsController.ProfesorExists(System.Int32)">
+            <summary>
+            Método que permite confirmar si un profesro existe usando como filtro su id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ProyectoSincoVersionOne.Controllers.ProfesorsController.CreateProfesor(ProyectoSincoVersionOne.DTOs.ProfeDTO)">
+            <summary>
+            Método que permite crear un nuevo profesor temporal a partir de un profesorDTO 
+            </summary>
+            <param name="profeDTO"></param>
+            <returns></returns>
+            <exception cref="T:System.Exception"> Esta excepción se lanza si la edad esta fuera de rango</exception>
+        </member>
+        <member name="T:ProyectoSincoVersionOne.Controllers.ReporteController">
+            <summary>
+            Controlador de la tabla Reporte, permite consultar
+            </summary>
+        </member>
+        <member name="M:ProyectoSincoVersionOne.Controllers.ReporteController.#ctor(ProyectoSincoVersionOne.Models.ContextDB)">
+            <summary>
+            Recibe como contexto el modelo de base de datos y crea una instancia de este
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:ProyectoSincoVersionOne.Controllers.ReporteController.ConsultarReporteConsolidado">
+            <summary>
+            Método que permite crear y obtener todos los resportes en la base de datos mediante el join de varias tablas
             </summary>
             <returns></returns>
         </member>
-        <member name="M:ProyectoSincoVersionOne.Controllers.MateriasController.GetMateria(System.Int32)">
+        <member name="T:ProyectoSincoVersionOne.Controllers.StudentsController">
             <summary>
-            
+            Controlador de la tabla Students, permite crear, editar, consultar, consultar por ID y eliminar
+            Adicionalmente se encarga de verificar la informacion y lanzar excepciones según sea necesario
+            a fin de evitar registros no deseados y manejar de forma correcta los posibles errores durante su 
+            implementacion
             </summary>
-            <param name="id">id de meateria a consultar</param>
+        </member>
+        <member name="M:ProyectoSincoVersionOne.Controllers.StudentsController.#ctor(ProyectoSincoVersionOne.Models.ContextDB)">
+            <summary>
+            Recibe como contexto el modelo de base de datos
+            </summary>
+            <param name="context"></param>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:ProyectoSincoVersionOne.Controllers.StudentsController.GetStudents" -->
+        <member name="M:ProyectoSincoVersionOne.Controllers.StudentsController.GetStudent(System.Int32)">
+            <summary>
+            Método que permite obtener un estudiante en la base de datos usando como filtro su id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="M:ProyectoSincoVersionOne.Controllers.StudentsController.PutStudent(ProyectoSincoVersionOne.DTOs.StudentDTO)">
+            <summary>
+            Método que permite editar un estudiante en la base de datos usando como filtro su id
+            </summary>
+            <param name="studentDTO"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ProyectoSincoVersionOne.Controllers.StudentsController.PostStudent(ProyectoSincoVersionOne.DTOs.StudentDTO)">
+            <summary>
+            Método que permite crear un estudiante en la base de datos
+            </summary>
+            <param name="studentDTO"></param>
+            <returns></returns>
+            <exception cref="T:System.Exception"> no se puede crear dos estudiantes con la misma identificacion o con datos fuera de rango</exception>
+        </member>
+        <member name="M:ProyectoSincoVersionOne.Controllers.StudentsController.DeleteStudent(System.Int32)">
+            <summary>
+            Método que permite eliminar un estudiante en la base de datos usando como filtro su id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+            <exception cref="T:System.Exception"> Excepción si el estudiante no existe y en caso de otros errores </exception>
+        </member>
+        <member name="M:ProyectoSincoVersionOne.Controllers.StudentsController.StudentExists(System.Int32)">
+            <summary>
+            Método que confirma si un estudiante existe usando como filro el id
+            </summary>
+            <param name="id"></param>
             <returns></returns>
         </member>
         <member name="T:ProyectoSincoVersionOne.Migrations.InitialMigration">

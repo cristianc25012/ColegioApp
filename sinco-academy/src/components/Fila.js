@@ -11,7 +11,7 @@ import axios from 'axios'
 //El tipo de tabla se recibe como prop, este dato se obtiene del pathname que invoco la tabla
 //Este componente recibe un arreglo de datos los cuales se dibujan dentro de la fila
 //idopc representa el ID de los datos obtenidos
-function Fila({ datos, tipo, idopc}) {
+function Fila({ datos, tipo, idopc, reloadComponent}) {
 
     //Estos estados se utilizan para determinar el tipo de formulario que se dibujará al oprimir un boton en la fila,
     //confirmar si el usuario desea eliminar un registro y entregar información adicional a la recibida como prop según 
@@ -19,6 +19,7 @@ function Fila({ datos, tipo, idopc}) {
     const [formularioTipo, setTipoFormulario] = useState("0");
     const [confirmacion, setConfirmacion] = useState(false);
     const [info, setInfo] = useState([]);
+
     
     //Esta funcion permite obtener los datos de los profesores desde la página de materias con el objetivo de cambiar el ID
     //del profesor asignado por el nombre y apellido de los mismos, facilitando la lectura del usuario
@@ -31,14 +32,23 @@ function Fila({ datos, tipo, idopc}) {
         }
     }, []);
 
+    useEffect(() => {
+        reloadComponent(formularioTipo);
+    }, [formularioTipo]);
+
     //Funcion que regresa el tipo de formulario a valor sin usar, escondiendo el formulario en el proceso
-    const esconderForm = () => {
-        setTipoFormulario("0");
+    function esconderForm(){
+        setTipoFormulario("0"); 
     };
 
     //Función que esconde el cuadro de confirmación
     const esconderConf = () => {
         setConfirmacion(false)
+        reloadComponent("esconderConf");
+    }
+
+    function cambiarForm(stf){
+        setTipoFormulario(stf);
     }
 
     //Esta seccion dibujo los datos del profesor obtenido dentro de la fila 
@@ -54,7 +64,7 @@ function Fila({ datos, tipo, idopc}) {
                         <div className='smallerSize'>{datos.profeAge}</div>{" "}
                         <div className='mediumSize'>{datos.profePhoneNumber}</div>{" "}
                         <div className='largeSize'>{datos.profeAddress}</div>{" "}
-                        <div className='icono'><button className='boton' onClick={() => setTipoFormulario("Editar")}><h2><RiEdit2Fill /></h2></button></div>{" "}
+                        <div className='icono'><button className='boton' onClick={() => cambiarForm("Editar")}><h2><RiEdit2Fill /></h2></button></div>{" "}
                         <div className='icono'><button className='boton borrar' onClick={() => setConfirmacion(true)}><h2><MdDelete /></h2></button></div>{" "}
                     </li>
             </div>

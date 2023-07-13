@@ -7,9 +7,6 @@ export default function Reporte() {
   return (
     <div className='HomeContainer'>
       <div>
-        <TitleRow tipo={window.location.pathname} />
-      </div>
-      <div>
         <TablaData tipo= {window.location.pathname}/>
       </div>
     </div>
