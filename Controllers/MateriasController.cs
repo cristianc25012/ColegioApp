@@ -1,30 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProyectoSincoVersionOne.DTOs;
 using ProyectoSincoVersionOne.Models;
 
 namespace ProyectoSincoVersionOne.Controllers
 {
+    /// <summary>
+    /// Controlador de la tabla Materias, permite crear, editar, consultar, consultar por ID y eliminar
+    /// Adicionalmente se encarga de verificar la informacion y lanzar excepciones según sea necesario
+    /// a fin de evitar registros no deseados y manejar de forma correcta los posibles errores durante su 
+    /// implementacion
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class MateriasController : ControllerBase
     {
         private readonly ContextDB _context;
 
+        /// <summary>
+        /// Recibe como contexto el modelo de base de datos y crea una instancia de este
+        /// </summary>
+        /// <param name="context"></param>
         public MateriasController(ContextDB context)
         {
             _context = context;
         }
         /// <summary>
-        ///  metodo que obtiene las materias
+        ///  metodo que obtiene todas las materias en la base de datos 
         /// </summary>
-        /// <returns></returns>
-
+        /// <returns></returns
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Materia>>> GetMaterias()
         {
@@ -36,7 +40,7 @@ namespace ProyectoSincoVersionOne.Controllers
         }
 
         /// <summary>
-        /// 
+        ///  metodo que obtiene una materia en la base de datos usando id como filtro
         /// </summary>
         /// <param name="id">id de meateria a consultar</param>
         /// <returns></returns>
@@ -57,8 +61,12 @@ namespace ProyectoSincoVersionOne.Controllers
             return materia;
         }
 
-        // PUT: api/Materias/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// metodo que edita una materia en la base de datos usando id como filtro
+        /// </summary>
+        /// <param name="materiaDTO"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutMateria(MateriaDTO materiaDTO)
         {
@@ -98,8 +106,12 @@ namespace ProyectoSincoVersionOne.Controllers
             return NoContent();
         }
 
-        // POST: api/Materias
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        ///  metodo que crea una materia en la base de datos 
+        /// </summary>
+        /// <param name="materiaDTO"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         [HttpPost]
         public async Task<ActionResult<Materia>> PostMateria(MateriaDTO materiaDTO)
         {
@@ -131,7 +143,12 @@ namespace ProyectoSincoVersionOne.Controllers
             return CreatedAtAction("GetMateria", new { id = materia.MateriaID }, materia);
         }
 
-        // DELETE: api/Materias/5
+        /// <summary>
+        /// metodo que elimina una materia en la base de datos usando id como filtro
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMateria(int id)
         {
@@ -159,16 +176,32 @@ namespace ProyectoSincoVersionOne.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// metodo que confirma si una materia existe
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         private bool MateriaExists(int id)
         {
             return (_context.Materias?.Any(e => e.MateriaID == id)).GetValueOrDefault();
         }
 
+        /// <summary>
+        /// metodo que confirma si un profesor existe
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         private bool ProfesorExists(int id)
         {
             return (_context.Profes?.Any(e => e.ProfesorID == id)).GetValueOrDefault();
         }
 
+        /// <summary>
+        ///  Método que permite crear una nueva materia temporal a partir de una materiaDTO
+        /// </summary>
+        /// <param name="materiaDTO"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         private Materia CreateMateria(MateriaDTO materiaDTO)
         {
             if (!ProfesorExists(materiaDTO.ProfesorID))

@@ -5,6 +5,7 @@ import {BsCodeSlash} from 'react-icons/bs'
 import {TbReportSearch} from 'react-icons/tb'
 import logo from '../Logo/rombo.png'
 
+//En esta sección se determinan los datos a ser dibujados en el panel de navegacion lateral
 export const SidebarData = [
     {
         title: "Sinco Academy",

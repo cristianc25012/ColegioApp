@@ -1,27 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProyectoSincoVersionOne.DTOs;
 using ProyectoSincoVersionOne.Models;
 
 namespace ProyectoSincoVersionOne.Controllers
 {
+    /// <summary>
+    /// Controlador de la tabla Profesors, permite crear, editar, consultar, consultar por ID y eliminar
+    /// Adicionalmente se encarga de verificar la informacion y lanzar excepciones según sea necesario
+    /// a fin de evitar registros no deseados y manejar de forma correcta los posibles errores durante su 
+    /// implementacion
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class ProfesorsController : ControllerBase
     {
         private readonly ContextDB _context;
 
+        /// <summary>
+        /// Recibe como contexto el modelo de base de datos y crea una instancia de este
+        /// </summary>
+        /// <param name="context"></param>
         public ProfesorsController(ContextDB context)
         {
             _context = context;
         }
 
-        // GET: api/Profesors
+        /// <summary>
+        /// GET: api/Students Método que permite obtener todos los profesores en la base de datos
+        /// </summary>
+        /// <returns></returns
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Profesor>>> GetProfes()
         {
@@ -32,7 +40,12 @@ namespace ProyectoSincoVersionOne.Controllers
             return await _context.Profes.ToListAsync();
         }
 
-        // GET: api/Profesors/5
+        /// <summary>
+        /// Método que permite obtener un profesor en la base de datos usando como filtro su id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         [HttpGet("{id}")]
         public async Task<ActionResult<Profesor>> GetProfesor(int id)
         {
@@ -50,8 +63,12 @@ namespace ProyectoSincoVersionOne.Controllers
             return profesor;
         }
 
-        // PUT: api/Profesors/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Método que permite editar un profesor en la base de datos usando como filtro su id
+        /// </summary>
+        /// <param name="profeDTO"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"> no se puede crear dos profesores con la misma identificacion o con datos fuera de rango</exception>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProfesor(ProfeDTO profeDTO)
         {
@@ -89,8 +106,12 @@ namespace ProyectoSincoVersionOne.Controllers
             return NoContent();
         }
 
-        // POST: api/Profesors
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Método que permite crear un profesor en la base de datos 
+        /// </summary>
+        /// <param name="profeDTO"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"> no se puede crear dos profesores con la misma identificacion o con datos fuera de rango</exception>
         [HttpPost]
         public async Task<ActionResult<Profesor>> PostProfesor(ProfeDTO profeDTO)
         {
@@ -106,21 +127,25 @@ namespace ProyectoSincoVersionOne.Controllers
             {
                 throw new Exception("Este profesor ya se encuentra registrado y no puede volver a ser creado, utilice la opción editar registro");
             }
-            else
+
+            try
             {
-                try
-                {
-                    await _context.SaveChangesAsync();
-                }
-                catch
-                {
-                    throw new Exception("No fue posible crear el profesor, revise los datos e intente de nuevo");
-                }
+                await _context.SaveChangesAsync();
             }
+            catch
+            {
+                throw new Exception("No fue posible crear el profesor, revise los datos e intente de nuevo");
+            }
+
             return CreatedAtAction("GetProfesor", new { id = profesor.ProfesorID }, profesor);
         }
 
-        // DELETE: api/Profesors/5
+        /// <summary>
+        /// Método que permite borrar un profesor en la base de datos usando como filtro su id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"> Excepcion en caso de no encontrar el id solicitado</exception>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProfesor(int id)
         {
@@ -148,11 +173,22 @@ namespace ProyectoSincoVersionOne.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Método que permite confirmar si un profesro existe usando como filtro su id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         private bool ProfesorExists(int id)
         {
             return (_context.Profes?.Any(e => e.ProfesorID == id)).GetValueOrDefault();
         }
 
+        /// <summary>
+        /// Método que permite crear un nuevo profesor temporal a partir de un profesorDTO 
+        /// </summary>
+        /// <param name="profeDTO"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"> Esta excepción se lanza si la edad esta fuera de rango</exception>
         private Profesor CreateProfesor(ProfeDTO profeDTO)
         {
             if(profeDTO.Age <0 || profeDTO.Age>200)

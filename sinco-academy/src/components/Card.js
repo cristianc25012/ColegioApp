@@ -2,21 +2,22 @@ import React from 'react'
 import './Card.css'
 import axios from 'axios'
 
-function Card({ confirmacion, prb2, tipo, idopc }) {
+//Este componente dibuja un panel de confirmacion sobre la pagina, con el objetivo de realizar una segunda verificación
+//antes de eliminar un registro, este componente recibe un boolean 'confirmacion' el cual se utiliza para mostrar el
+//panel en caso de que sea true, también recibe una función esconderConf que asigna la confirmación en false al ser invocada y 
+//por lo tanto esconde el panel.
+//El tipo y el idopc se utilizan para completar la url, donde el tipo representa la tabla y el idopc representa el id del
+//registro a eliminar
+function Card({ confirmacion, esconderConf, tipo, idopc }) {
 
+    //Esta sección elimina el registro seleccionado
     const deleteRecord = () => {
-        try {
-
-            axios.delete("http://localhost:5006/api" + tipo + "/" + idopc)
-                .then(prb2, window.location.reload(true));
-
-        } catch (error) {
-            console.log('rs', error.r.data);
-            console.log('http', error.r.status);
-            console.log('es', error.message);
-        }
+        axios.delete("http://localhost:5006/api" + tipo + "/" + idopc)
+            .catch(err => alert(err.response.data.substring(err.response.data.indexOf('at'), 18).trim()))
+            .then(esconderConf, window.location.reload(true));
     }
 
+    //Esta seccion dibuja el conponente que sirve como panel de confirmacion en caso de que el prop confirmacion se true
     if (confirmacion === true) {
         return (
             <div className='PanelBlur'>
@@ -26,10 +27,9 @@ function Card({ confirmacion, prb2, tipo, idopc }) {
                         Desea eliminar este registro?
                     </div>
                     <div className='botones'>
-                        <button className='boton2' onClick={() => deleteRecord()}>Guardar</button>
-                        <button className='boton2 cancelar' onClick={prb2}>Cancelar</button>
+                        <button className='boton2' onClick={() => deleteRecord()}>Confirmar</button>
+                        <button className='boton2 cancelar' onClick={esconderConf}>Cancelar</button>
                     </div>
-
                 </div>
             </div>
         )

@@ -2,6 +2,7 @@ import React from 'react'
 import './Sidebar.css'
 import {SidebarData} from './SidebarData';
 
+//Esta funcion dibuja la barra de navegacion lateral
 function Sidebar() {
   return (
     <div className='Sidebar'>

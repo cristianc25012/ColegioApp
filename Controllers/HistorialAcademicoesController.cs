@@ -1,27 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProyectoSincoVersionOne.DTOs;
 using ProyectoSincoVersionOne.Models;
 
 namespace ProyectoSincoVersionOne.Controllers
 {
+    /// <summary>
+    /// Controlador de la tabla Historial Academicoes, permite crear, editar, consultar, consultar por ID y eliminar
+    /// Adicionalmente se encarga de verificar la informacion y lanzar excepciones según sea necesario
+    /// a fin de evitar registros no deseados y manejar de forma correcta los posibles errores durante su 
+    /// implementacion. Varios de sus métodos no se encuentran implementados en el front pero pueden usarse desde Swagger
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class HistorialAcademicoesController : ControllerBase
     {
         private readonly ContextDB _context;
 
+        /// <summary>
+        /// Recibe como contexto el modelo de base de datos y crea una instancia de este
+        /// </summary>
+        /// <param name="context"></param>
         public HistorialAcademicoesController(ContextDB context)
         {
             _context = context;
         }
 
-        // GET: api/HistorialAcademicoes
+        /// <summary>
+        /// GET: api/Students Método que permite obtener todos los historiales academicos en la base de datos
+        /// </summary>
+        /// <returns></returns
         [HttpGet]
         public async Task<ActionResult<IEnumerable<HistorialAcademico>>> GetHistorials()
         {
@@ -32,7 +40,12 @@ namespace ProyectoSincoVersionOne.Controllers
             return await _context.Historials.ToListAsync();
         }
 
-        // GET: api/HistorialAcademicoes/5
+        /// <summary>
+        /// Método que permite consultar un historial especifico en la base de datos usando como filtro el ID, actualmente este método no esta en uso en el front
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         [HttpGet("{id}")]
         public async Task<ActionResult<HistorialAcademico>> GetHistorialAcademico(int id)
         {
@@ -50,8 +63,12 @@ namespace ProyectoSincoVersionOne.Controllers
             return historialAcademico;
         }
 
-        // PUT: api/HistorialAcademicoes/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Metodo que permite editar un historial usando como filtro el id, actualmente el método no esta en uso en el front
+        /// </summary>
+        /// <param name="historialDTO"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutHistorialAcademico(HistorialDTO historialDTO)
         {
@@ -78,8 +95,12 @@ namespace ProyectoSincoVersionOne.Controllers
             return NoContent();
         }
 
-        // POST: api/HistorialAcademicoes
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Metodo que permite crear un historial nuevo
+        /// </summary>
+        /// <param name="historialDTO"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         [HttpPost]
         public async Task<ActionResult<HistorialAcademico>> PostHistorialAcademico(HistorialDTO historialDTO)
         {
@@ -103,7 +124,12 @@ namespace ProyectoSincoVersionOne.Controllers
             return CreatedAtAction("GetHistorialAcademico", new { id = historialAcademico.HistorialID }, historialAcademico);
         }
 
-        // DELETE: api/HistorialAcademicoes/5
+        /// <summary>
+        /// Metodo que elimina un historial usando como filtro el id, actualmente el método no esta en uso en el front
+        /// </summary
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteHistorialAcademico(int id)
         {
@@ -130,11 +156,22 @@ namespace ProyectoSincoVersionOne.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Metodo que confirma si el historial existe usando como filtro el id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         private bool HistorialAcademicoExists(int id)
         {
             return (_context.Historials?.Any(e => e.HistorialID == id)).GetValueOrDefault();
         }
 
+        /// <summary>
+        /// Método que permite crear un nuevo historial temporal a partir de un historialDTO
+        /// </summary>
+        /// <param name="historialDTO"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         private HistorialAcademico CreateHistorial(HistorialDTO historialDTO)
         {
             var consulta = (from historial in _context.Historials

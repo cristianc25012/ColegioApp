@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import Tabla from './Tabla';
 
+//Esta sección obtiene los datos desde el API, esta función recibe como prop tipo lo cual representa la 
+//tabla a inspeccionar, el tipo se utiliza para completar la url
 function TablaData({tipo}) {
     
     const [dataApi, setDataApi] = useState([]);

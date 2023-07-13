@@ -5,7 +5,6 @@ import Home from './pages/Home'
 import Profesores from './pages/Profesores'
 import Materias from './pages/Materias'
 import Reporte from './pages/Reporte'
-import { Historial } from './pages/Historial';
 
 function App() {
   let component
@@ -25,9 +24,6 @@ function App() {
     case "/Reporte":
       component = <Reporte/>
       break;
-      case "/HistorialAcademicoes":
-        component = <Historial/>
-        break;
     default:
       component = <Home/>
       break;

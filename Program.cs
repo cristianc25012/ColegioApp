@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using ProyectoSincoVersionOne.Models;
 using System.Reflection;
 
@@ -32,6 +31,9 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+
+//Esta sección permite que se pueda acceder a esta API desde el localhost:3000 haciendo uso de cualquier método y permitiendo el
+//el envio de cualquier dato. 
 app.UseCors(opt =>
 {
     opt.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000");

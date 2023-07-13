@@ -6,18 +6,28 @@ using ProyectoSincoVersionOne.Models;
 
 namespace ProyectoSincoVersionOne.Controllers
 {
+    /// <summary>
+    /// Controlador de la tabla Reporte, permite consultar
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class ReporteController : ControllerBase
     {
         private readonly ContextDB _context;
+        /// <summary>
+        /// Recibe como contexto el modelo de base de datos y crea una instancia de este
+        /// </summary>
+        /// <param name="context"></param>
         public ReporteController(ContextDB context)
         {
             _context = context;
         }
 
+        /// <summary>
+        /// Método que permite crear y obtener todos los resportes en la base de datos mediante el join de varias tablas
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
-
         public IActionResult ConsultarReporteConsolidado()
         {
             var consulta = (from historial in _context.Historials 

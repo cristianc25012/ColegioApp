@@ -1,27 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProyectoSincoVersionOne.DTOs;
 using ProyectoSincoVersionOne.Models;
 
 namespace ProyectoSincoVersionOne.Controllers
 {
+    /// <summary>
+    /// Controlador de la tabla Students, permite crear, editar, consultar, consultar por ID y eliminar
+    /// Adicionalmente se encarga de verificar la informacion y lanzar excepciones según sea necesario
+    /// a fin de evitar registros no deseados y manejar de forma correcta los posibles errores durante su 
+    /// implementacion
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class StudentsController : ControllerBase
     {
         private readonly ContextDB _context;
 
+        /// <summary>
+        /// Recibe como contexto el modelo de base de datos
+        /// </summary>
+        /// <param name="context"></param>
         public StudentsController(ContextDB context)
         {
             _context = context;
         }
 
-        // GET: api/Students
+        /// <summary>
+        /// GET: api/Students Método que permite obtener todos los estudiantes en la base de datos
+        /// </summary>
+        /// <returns></returns
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Student>>> GetStudents()
         {
@@ -32,7 +40,12 @@ namespace ProyectoSincoVersionOne.Controllers
             return await _context.Students.ToListAsync();
         }
 
-        // GET: api/Students/5
+        /// <summary>
+        /// Método que permite obtener un estudiante en la base de datos usando como filtro su id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         [HttpGet("{id}")]
         public async Task<ActionResult<Student>> GetStudent(int id)
         {
@@ -50,57 +63,62 @@ namespace ProyectoSincoVersionOne.Controllers
             return student;
         }
 
-        // PUT: api/Students/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Método que permite editar un estudiante en la base de datos usando como filtro su id
+        /// </summary>
+        /// <param name="studentDTO"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutStudent(StudentDTO studentDTO)
+        public  IActionResult PutStudent(StudentDTO studentDTO)
         {
-            
-            Student student = CreateStudent(studentDTO);
-            student.StudentID = studentDTO.ID;
-            _context.Entry(student).State = EntityState.Modified;
-
-            var consulta = (from Student in _context.Students
-                            where Student.StudentID == studentDTO.ID &&
-                            Student.StuIdentification == studentDTO.Identification
-                            select Student);
-
-            if (!StudentExists(studentDTO.ID))
+            try 
             {
-                throw new Exception("Estudiante no encontrado con id suministrado");
-            }
+                Student student = new(studentDTO);
+                student.StudentID = studentDTO.ID;
+                _context.Entry(student).State = EntityState.Modified;
 
-            if ((_context.Students.Any(e => e.StuIdentification == studentDTO.Identification)) && consulta.Count()==0)
-            {
-                throw new Exception("Este estudiante ya se encuentra registrado y no puede volver a ser creado, utilice la opción editar registro");
-            }
+                var consulta = (from Student in _context.Students
+                                where Student.StudentID == studentDTO.ID &&
+                                Student.StuIdentification == studentDTO.Identification
+                                select Student);
 
-            else
-            {
-                try
+                if (!StudentExists(studentDTO.ID))
                 {
-                    await _context.SaveChangesAsync();
+                    throw new Exception("Estudiante no encontrado con id suministrado");
                 }
-                catch (DbUpdateConcurrencyException)
+
+                if ((_context.Students.Any(e => e.StuIdentification == studentDTO.Identification)) && consulta.Count() == 0)
                 {
-
-                    throw new Exception("No fue posible editar el profesor, revise los datos e intente de nuevo");
+                    throw new Exception("Este estudiante ya se encuentra registrado y no puede volver a ser creado, utilice la opción editar registro");
                 }
-            }
+                else
+                {                    
+                    _context.SaveChanges();
+                }
 
-            return NoContent();
+                return Ok();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+
+               return BadRequest(new Exception("No fue posible editar el estudiante, revise los datos e intente de nuevo"));
+            }
+            catch (Exception ex) {
+
+                return BadRequest(ex.ToString());
+            }
+           
         }
 
-        // POST: api/Students
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Método que permite crear un estudiante en la base de datos
+        /// </summary>
+        /// <param name="studentDTO"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"> no se puede crear dos estudiantes con la misma identificacion o con datos fuera de rango</exception>
         [HttpPost]
         public async Task<ActionResult<Student>> PostStudent(StudentDTO studentDTO)
         {
-          if (_context.Students == null)
-          {
-              return Problem("Entity set 'ContextDB.Students'  is null.");
-          }
-
 
             if ((_context.Students.Any(e => e.StuIdentification == studentDTO.Identification)))
             {
@@ -108,7 +126,7 @@ namespace ProyectoSincoVersionOne.Controllers
             }
 
             studentDTO.ID = 0;
-            Student student = CreateStudent(studentDTO);
+            Student student = new(studentDTO);
             _context.Students.Add(student);
             try
             {
@@ -116,21 +134,26 @@ namespace ProyectoSincoVersionOne.Controllers
             }
             catch
             {
-                throw new Exception("No fue posible crear el estudiante, revise los datos e intente de nuevo");
+                throw new Exception("No fue posible crear el estudiante, revise la información e intente de nuevo");
             }
 
             return CreatedAtAction("GetStudent", new { id = student.StudentID }, student);
         }
 
-        // DELETE: api/Students/5
+        /// <summary>
+        /// Método que permite eliminar un estudiante en la base de datos usando como filtro su id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"> Excepción si el estudiante no existe y en caso de otros errores </exception>
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteStudent(int id)
+        public IActionResult DeleteStudent(int id)
         {
             if (_context.Students == null)
             {
                 return NotFound();
             }
-            var student = await _context.Students.FindAsync(id);
+            var student =  _context.Students.Find(id);
             if (student == null)
             {
                 throw new Exception("No fue posible eliminar el registro, el registro no existe");
@@ -140,7 +163,7 @@ namespace ProyectoSincoVersionOne.Controllers
 
             try
             {
-                await _context.SaveChangesAsync();
+                 _context.SaveChanges();
             }
             catch
             {
@@ -150,30 +173,15 @@ namespace ProyectoSincoVersionOne.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Método que confirma si un estudiante existe usando como filro el id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         private bool StudentExists(int id)
         {
             return (_context.Students?.Any(e => e.StudentID == id)).GetValueOrDefault();
         }
 
-        private Student CreateStudent(StudentDTO studentDTO)
-        {
-            if(studentDTO.Age < 0 || studentDTO.Age > 200)
-            {
-                throw new Exception("La edad del estudiante debe ser un número positivo menor a 200");
-            }
-            else
-            {
-                Student student = new()
-                {
-                    StuName = studentDTO.Name,
-                    StuAddress = studentDTO.Address,
-                    StuIdentification = studentDTO.Identification,
-                    StuLastName = studentDTO.LastName,
-                    StuPhoneNumber = studentDTO.PhoneNumber,
-                    Age = studentDTO.Age
-                };
-                return student;
-            }
-        }
     }
 }

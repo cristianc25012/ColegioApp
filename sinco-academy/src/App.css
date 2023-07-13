@@ -32,3 +32,9 @@ body {
   height: 100%;
   flex: 88%;
 }
+
+.HomeContainer{
+  display: grid;
+  place-items: center;
+  padding-top: 50px;
+}

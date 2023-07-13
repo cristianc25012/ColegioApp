@@ -7,12 +7,21 @@ import Form from './Form'
 import Card from './Card'
 import axios from 'axios'
 
+//Este componente dibuja los elementos dentro de cada fila dependiendo el tipo de tabla 
+//El tipo de tabla se recibe como prop, este dato se obtiene del pathname que invoco la tabla
+//Este componente recibe un arreglo de datos los cuales se dibujan dentro de la fila
+//idopc representa el ID de los datos obtenidos
 function Fila({ datos, tipo, idopc}) {
 
-    const [visible, setVisible] = useState("0");
+    //Estos estados se utilizan para determinar el tipo de formulario que se dibujará al oprimir un boton en la fila,
+    //confirmar si el usuario desea eliminar un registro y entregar información adicional a la recibida como prop según 
+    //se requiera
+    const [formularioTipo, setTipoFormulario] = useState("0");
     const [confirmacion, setConfirmacion] = useState(false);
     const [info, setInfo] = useState([]);
     
+    //Esta funcion permite obtener los datos de los profesores desde la página de materias con el objetivo de cambiar el ID
+    //del profesor asignado por el nombre y apellido de los mismos, facilitando la lectura del usuario
     useEffect(() => {
         if(tipo==="/Materias")
         {
@@ -22,19 +31,22 @@ function Fila({ datos, tipo, idopc}) {
         }
     }, []);
 
-    const prb = () => {
-        setVisible("0");
+    //Funcion que regresa el tipo de formulario a valor sin usar, escondiendo el formulario en el proceso
+    const esconderForm = () => {
+        setTipoFormulario("0");
     };
 
-    const prb2 = () => {
+    //Función que esconde el cuadro de confirmación
+    const esconderConf = () => {
         setConfirmacion(false)
     }
 
+    //Esta seccion dibujo los datos del profesor obtenido dentro de la fila 
     if (tipo === "/Profesors") {
         return (
             <div>
-                <div><Form visible={visible} prb={prb} data={datos} tipo={tipo} idopc={idopc} /></div>
-                <div><Card confirmacion={confirmacion} prb2={prb2} tipo={tipo} idopc={idopc} /></div>
+                <div><Form formularioTipo={formularioTipo} esconderForm={esconderForm} data={datos} tipo={tipo} idopc={idopc} /></div>
+                <div><Card confirmacion={confirmacion} esconderConf={esconderConf} tipo={tipo} idopc={idopc} /></div>
                 <li key={datos.profesorID} className='row'>
                         <div className='mediumSize'>{datos.profeName}</div>{" "}
                         <div className='mediumSize'>{datos.profeLastName}</div>{" "}
@@ -42,29 +54,33 @@ function Fila({ datos, tipo, idopc}) {
                         <div className='smallerSize'>{datos.profeAge}</div>{" "}
                         <div className='mediumSize'>{datos.profePhoneNumber}</div>{" "}
                         <div className='largeSize'>{datos.profeAddress}</div>{" "}
-                        <div className='icono'><button className='boton' onClick={() => setVisible("Editar")}><h2><RiEdit2Fill /></h2></button></div>{" "}
+                        <div className='icono'><button className='boton' onClick={() => setTipoFormulario("Editar")}><h2><RiEdit2Fill /></h2></button></div>{" "}
                         <div className='icono'><button className='boton borrar' onClick={() => setConfirmacion(true)}><h2><MdDelete /></h2></button></div>{" "}
                     </li>
             </div>
         );
     }
-    else if (tipo === "/Materias") {
 
+    
+    //Esta seccion dibujo los datos de la materia obtenida dentro de la fila 
+    else if (tipo === "/Materias") {
 
         return (
             <div>
-                <div><Form visible={visible} prb={prb} data={datos} tipo={tipo} idopc={idopc} /></div>
-                <div><Card confirmacion={confirmacion} prb2={prb2} tipo={tipo} idopc={idopc} /></div>
+                <div><Form formularioTipo={formularioTipo} esconderForm={esconderForm} data={datos} tipo={tipo} idopc={idopc} /></div>
+                <div><Card confirmacion={confirmacion} esconderConf={esconderConf} tipo={tipo} idopc={idopc} /></div>
                     <li key={datos.materiaID} className='row'>
                         <div className='mediumSize'>{datos.materiaName}</div>{" "}
                         <div className='smallSize'>{datos.materiaCode}</div>{" "}
                         <div className='largerSize'>{info.profeName} {info.profeLastName}</div>{" "}
-                        <div className='icono'><button className='boton' onClick={() => setVisible("Editar")}><h2><RiEdit2Fill /></h2></button></div>{" "}
+                        <div className='icono'><button className='boton' onClick={() => setTipoFormulario("Editar")}><h2><RiEdit2Fill /></h2></button></div>{" "}
                         <div className='icono'><button className='boton borrar' onClick={() => setConfirmacion(true)}><h2><MdDelete /></h2></button></div>{" "}
                     </li>
             </div>
         );
     }
+    
+    //Esta seccion dibuja los datos del reporte obtenido dentro de la fila 
     else if (tipo === "/Reporte") {
         return (
                 <li key={1} className='row'>
@@ -80,11 +96,13 @@ function Fila({ datos, tipo, idopc}) {
                 </li>
         );
     }
+    
+    //Esta seccion dibujo los datos del estudiante obtenido dentro de la fila 
     else if (tipo === "/Students") {
         return (
             <div>
-                <div><Form visible={visible} prb={prb} data={datos} tipo={tipo} idopc={idopc} /></div>
-                <div><Card confirmacion={confirmacion} prb2={prb2} tipo={tipo} idopc={idopc} /></div>
+                <div><Form formularioTipo={formularioTipo} esconderForm={esconderForm} data={datos} tipo={tipo} idopc={idopc} /></div>
+                <div><Card confirmacion={confirmacion} esconderConf={esconderConf} tipo={tipo} idopc={idopc} /></div>
                     <li key={datos.studentID} className='row'>
                         <div className='mediumSize'>{datos.stuName}</div>{" "}
                         <div className='mediumSize'>{datos.stuLastName}</div>{" "}
@@ -92,26 +110,9 @@ function Fila({ datos, tipo, idopc}) {
                         <div className='smallerSize'>{datos.age}</div>{" "}
                         <div className='mediumSize'>{datos.stuPhoneNumber}</div>{" "}
                         <div className='largeSize'>{datos.stuAddress}</div>{" "}
-                        <div className='icono'><button className='boton' onClick={() => setVisible("Editar")}><h2><RiEdit2Fill /></h2></button></div>{" "}
+                        <div className='icono'><button className='boton' onClick={() => setTipoFormulario("Editar")}><h2><RiEdit2Fill /></h2></button></div>{" "}
                         <div className='icono'><button className='boton borrar' onClick={() => setConfirmacion(true)}><h2><MdDelete /></h2></button></div>{" "}
-                        <div className='icono'><button className='boton historial' onClick={()=>setVisible("Calificar")}><h2><BiSolidBookBookmark /></h2></button></div>{" "}
-                    </li>
-            </div>
-        );
-    }
-    else if (tipo === "/HistorialAcademicoes") {
-        return (
-            <div>
-                <div><Form visible={visible} prb={prb} data={datos} tipo={tipo} idopc={idopc} /></div>
-                <div><Card confirmacion={confirmacion} prb2={prb2} tipo={tipo} idopc={idopc} /></div>   
-                    <li key={1} className='row'>
-                        <div className='smallerSize'>{datos.year}</div>{" "}
-                        <div className='mediumSize'>{datos.studentID}</div>{" "}
-                        <div className='smallSize'>{datos.materiaID}</div>{" "}
-                        <div className='smallerSize'>{datos.grade}</div>{" "}
-                        <div className='smallSize'>{datos.calificacionFinal > 3 ? "Aprobado" : "Reprobado"}</div>{" "}
-                        <div className='icono'><button className='boton' onClick={() => setVisible("Calificar")}><h2><RiEdit2Fill /></h2></button></div>{" "}
-                        <div className='icono'><button className='boton' onClick={() => setConfirmacion(true)}><h2><MdDelete /></h2></button></div>{" "}
+                        <div className='icono'><button className='boton historial' onClick={()=>setTipoFormulario("Calificar")}><h2><BiSolidBookBookmark /></h2></button></div>{" "}
                     </li>
             </div>
         );

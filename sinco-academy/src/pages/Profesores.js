@@ -1,7 +1,8 @@
 import React from 'react'
-import Test from '../components/TablaData'
+import TablaData from '../components/TablaData'
 import TitleRow from '../components/TitleRow'
 
+//Pagina de Profesores
 export default function Profesores() {
   return (
     <div className='HomeContainer'>
@@ -9,7 +10,7 @@ export default function Profesores() {
         <TitleRow tipo={window.location.pathname}/>
       </div>
       <div>
-        <Test tipo= {window.location.pathname}/>
+        <TablaData tipo= {window.location.pathname}/>
       </div>
     </div>
   )
